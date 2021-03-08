@@ -33,7 +33,7 @@
 
 .sidebar-sticky {
   height: calc(100vh - 48px);
-  padding-top: .5rem;
+  padding-top: 5rem;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
@@ -62,6 +62,42 @@
 }
 
 /*
- * Utilities
+ * Logo
  */
 
+.logo {
+  with: 100%;
+  height: 2rem;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+}
+
+.form-signin {
+  width: 100%;
+  padding: 1rem;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 1rem;
+  font-size: 0.8rem;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input {
+  margin-bottom: 1.25rem;
+}
+.form-signin input[type="email"] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

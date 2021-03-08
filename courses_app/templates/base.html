@@ -21,7 +21,13 @@
     <header>
 	  <nav class="navbar navbar-light fixed-top bg-light">
 		<div class="container-fluid">
-		<a class="navbar-brand" href="#">Courses engine Dashboard</a>
+          <div class="d-flex col-2">
+            <a class="navbar-brand" href="#">
+              COURSE
+              <img class="logo" src="{{ url_for('static', filename='nest.svg') }}">
+              NEST
+            </a>
+          </div>
 		  <form class="d-flex col-4 mx-5 px-5">
 			<input class="form-control col-4" type="text" placeholder="Type to search" aria-label="Search">
 			<button class="btn form-control btn-outline-success" type="submit">Search</button>
