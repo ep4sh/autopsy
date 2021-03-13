@@ -1,5 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
-from courses_app import app
+from courses_app import app, bcrypt
+from courses_app.model import db, User, Doc
 from courses_app.forms import RegistrationForm, LoginForm
 
 @app.route('/')
@@ -24,6 +25,11 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        hashed_pw =  bcrypt.generate_password_hash(form.password.data)\
+                                                   .decode('utf-8')
+        user = User(user_name=form.email.data, user_password=hashed_pw)
+        db.session.add(user)
+        db.session.commit()
         flash(f"An account {form.email.data} has been created", 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
