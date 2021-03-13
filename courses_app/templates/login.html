@@ -7,22 +7,21 @@
 {% block form %}
         <form class="form-signin" action="" method="POST">
           {{ form.hidden_tag() }}
-          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
           <div class="form-group">
-            {{ form.email.label(class="form-control-label") }}
+            {{ form.username.label(class="form-control-label") }}
 
-            {% if form.email.errors %}
-              {{ form.email(class="form-control form-control-md is-invalid") }}
+            {% if form.username.errors %}
+              {{ form.username(class="form-control form-control-md is-invalid") }}
               <div class="invalid-feedback">
-                {% for err in form.email.errors %}
+                {% for err in form.username.errors %}
                   <span>
                     {{ error }}
                   </span>
                 {% endfor%}
               </div>
             {% else %}
-              {{ form.email(class="form-control form-control-md") }}
+              {{ form.username(class="form-control form-control-md") }}
             {% endif %}
 
           </div>

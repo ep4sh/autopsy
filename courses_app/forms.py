@@ -6,7 +6,8 @@ from courses_app.model import User
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('E-mail',
+    # Email == Username
+    username = StringField('E-mail',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password',
                              validators=[DataRequired(),
@@ -17,16 +18,16 @@ class RegistrationForm(FlaskForm):
                                                   EqualTo('password')])
     submit = SubmitField('Sign up')
 
-    def validate_email(self, email):
-        user = User.query.filter_by(user_name=email.data).first()
+    def validate_username(self, username):
+        user = User.query.filter_by(user_name=username.data).first()
         if user:
             msg = "Username is already taken.."
             raise ValidationError(msg)
 
 class LoginForm(FlaskForm):
-    email = StringField('Email',
+    username = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password',
-                           validators=[DataRequired(), Length(min=8, max=20)])
+                           validators=[DataRequired(), Length(min=3, max=20)])
     remember = BooleanField('Remember me')
     submit = SubmitField('Sign in')
