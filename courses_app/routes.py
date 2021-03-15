@@ -7,7 +7,7 @@ from courses_app.forms import RegistrationForm, LoginForm
 @app.route('/')
 @login_required
 def dashboard():
-    return render_template('user.html')
+    return render_template('dashboard.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,3 +49,7 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')

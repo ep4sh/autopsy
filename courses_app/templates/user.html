@@ -1,18 +1,14 @@
 {% extends "top_layer.html" %}
 
-{% block title %}
-  <title>Course Nest Dashboard</title>
-{% endblock title %}
-
 {% block menu %}
-        <nav class="col-md-2 d-md-block bg-light sidebar-sticky">
+        <nav class="d-md-block bg-light sidebar-sticky">
           <div class="sidebar">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Course Nest</span>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url_for('dashboard') }}">
                   <span data-feather="at-sign"></span>
                   Dashboard
                 </a>
@@ -36,7 +32,7 @@
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url_for('profile')  }}">
                   <span data-feather="users"></span>
                   Profile
                 </a>
@@ -81,6 +77,5 @@
 
           </div>
         </nav>
-
 {% endblock menu %}
 

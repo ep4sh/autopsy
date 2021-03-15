@@ -18,29 +18,25 @@
   </head>
 
   <body>
-    <header>
-	  <nav class="navbar navbar-light fixed-top bg-light">
-		<div class="container-fluid">
-          <div class="d-flex col-2">
-            <a class="navbar-brand" href="#">
-              COURSE
-              <img class="logo" src="{{ url_for('static', filename='nest.svg') }}">
-              NEST
-            </a>
+        <nav class="navbar navbar-light bg-light ">
+          <div class="container-fluid">
+            <div class="d-flex col-2">
+              <a class="navbar-brand" href="/">
+                COURSE
+                <img class="logo" src="{{ url_for('static', filename='nest.svg') }}">
+                NEST
+              </a>
+            </div>
+            <form class="d-flex col-4 mx-5 px-5">
+              <input class="form-control col-4" type="text" placeholder="Type to search" aria-label="Search">
+              <button class="btn form-control btn-outline-success" type="submit">Search</button>
+            </form>
           </div>
-		  <form class="d-flex col-4 mx-5 px-5">
-			<input class="form-control col-4" type="text" placeholder="Type to search" aria-label="Search">
-			<button class="btn form-control btn-outline-success" type="submit">Search</button>
-		  </form>
-		</div>
-	  </nav>
-    </header>
+        </nav>
 
 
-    <section>
-      {% block top_layer %}
-      {% endblock top_layer %}
-    </section>
+     {% block top_layer %}
+     {% endblock top_layer %}
 
 
     <!-- Bootstrap core JavaScript -->

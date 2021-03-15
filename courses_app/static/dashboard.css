@@ -32,8 +32,8 @@
 }
 
 .sidebar-sticky {
-  height: calc(100vh - 48px);
-  padding-top: 5rem;
+  height: calc(100vh - 12px);
+  padding-top: 1rem;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
