@@ -1,29 +1,29 @@
 {% extends "base_register.html" %}
 
 {% block title %}
-    <title>Course Nest: Sign Up</title>
+    <title>Autopsy: Sign In</title>
 {% endblock title %}
-
 
 {% block form %}
         <form class="form-signin" action="" method="POST">
           {{ form.hidden_tag() }}
-          <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
           <div class="form-group">
             {{ form.username.label(class="form-control-label") }}
+
             {% if form.username.errors %}
               {{ form.username(class="form-control form-control-md is-invalid") }}
               <div class="invalid-feedback">
                 {% for err in form.username.errors %}
                   <span>
-                    {{ err }}
+                    {{ error }}
                   </span>
                 {% endfor%}
               </div>
             {% else %}
               {{ form.username(class="form-control form-control-md") }}
             {% endif %}
+
           </div>
 
           <div class="form-group">
@@ -42,20 +42,9 @@
             {% endif %}
           </div>
 
-          <div class="form-group">
-            {{ form.confirm_password.label(class="form-control-label") }}
-            {% if form.confirm_password.errors %}
-              {{ form.confirm_password(class="form-control form-control-md is-invalid") }}
-              <div class="invalid-feedback">
-                {% for err in form.confirm_password.errors %}
-                  <span>
-                    {{ err }}
-                  </span>
-                {% endfor%}
-              </div>
-            {% else %}
-              {{ form.confirm_password(class="form-control form-control-md") }}
-            {% endif %}
+          <div class="checkbox mb-3">
+            {{ form.remember(class="form-check-input form-control-md") }}
+            {{ form.remember.label(class="form-check-label form-control-md") }}
           </div>
 
           <div class="form-group">
@@ -65,9 +54,13 @@
           <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
           <div class="border-top">
             <small>
-             Already have a login?
               <div>
-                <a class="ml-2" href="{{ url_for('login') }}"> Sign In </a>
+                <a class="ml-2" href="{{ url_for('register') }}"> Have no account? </a>
+              </div>
+            </small>
+            <small>
+              <div>
+                <a class="ml-2" href="{{ url_for('register') }}"> Forgot password? </a>
               </div>
             </small>
           </div>

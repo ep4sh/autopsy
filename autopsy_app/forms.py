@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from wtforms.validators import ValidationError
-from courses_app.model import User
+from autopsy_app.model import User
 
 
 class RegistrationForm(FlaskForm):

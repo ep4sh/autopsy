@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from courses_app import app, login_manager
+from autopsy_app import app, login_manager
 
 db = SQLAlchemy(app)
 

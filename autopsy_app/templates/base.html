@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" href="{{ url_for('static', filename='autopsy.svg') }}">
 
     {% block title %}
     {% endblock title %}
@@ -18,18 +18,17 @@
   </head>
 
   <body>
-        <nav class="navbar navbar-light bg-light ">
+        <nav class="navbar navbar-dark bg-dark ">
           <div class="container-fluid">
             <div class="d-flex col-2">
-              <a class="navbar-brand" href="/">
-                COURSE
-                <img class="logo" src="{{ url_for('static', filename='nest.svg') }}">
-                NEST
+              <a class="navbar-brand navbar-brand-link" href="/">
+                <img alt="Autopsy" class="logo" src="{{ url_for('static', filename='autopsy.svg') }}">
+                Autopsy
               </a>
             </div>
-            <form class="d-flex col-4 mx-5 px-5">
-              <input class="form-control col-4" type="text" placeholder="Type to search" aria-label="Search">
-              <button class="btn form-control btn-outline-success" type="submit">Search</button>
+            <form class="d-flex col-3 mx-5 px-3">
+              <input class="form-control col-1" type="text" placeholder="Type to search" aria-label="Search">
+              <button class="btn form-control btn-outline-autopsy" type="submit">Search</button>
             </form>
           </div>
         </nav>

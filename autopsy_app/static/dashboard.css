@@ -32,19 +32,22 @@
 }
 
 .sidebar-sticky {
+  position: sticky;
   height: calc(100vh - 12px);
-  padding-top: 1rem;
   overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  overflow-y: hidden; /* Scrollable contents if viewport is shorter than content. */
 }
 /*
  * Navbar
  */
 
+.navbar {
+  border-bottom: 0.25rem solid #8a2be2;
+}
+
 .navbar-brand {
-  padding-top: .75rem;
   padding-bottom: .75rem;
-  font-size: 1rem;
+  font-weight: 700;
 }
 
 .navbar .form-control {
@@ -61,6 +64,16 @@
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, .15);
 }
 
+.btn-outline-autopsy {
+  border: 0.05rem solid #8a2be2;
+  color: #fff;
+}
+
+.btn-outline-autopsy:hover{
+  color: #fff;
+  background-color: #8a2be2;
+}
+
 /*
  * Logo
  */
@@ -70,6 +83,13 @@
   height: 2rem;
   margin-left: 0.35rem;
   margin-right: 0.35rem;
+
+}
+
+.logo-link {
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
 }
 
 .form-signin {
@@ -100,4 +120,7 @@
 .form-signin input[type="password"] {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.content {
 }

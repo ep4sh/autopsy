@@ -17,10 +17,11 @@
   <body class="text-center">
     <div class="container col-lg-2">
       <div class="row">
-        <div>
-          COURSE
-          <img class="mb-4" src="{{ url_for('static', filename='nest.svg') }}" alt="Course Nest" width="72" height="72">
-          NEST
+        <div class="mt-3">
+          <a class="logo-link" href="/">
+            <img class="mb-4" src="{{ url_for('static', filename='autopsy.svg') }}" alt="Autopsy" width="72" height="72">
+            Autopsy
+          </a>
         </div>
         <div class="col-lg-12">
           {% with messages = get_flashed_messages(with_categories=true) %}

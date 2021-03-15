@@ -1,8 +1,8 @@
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, current_user, login_required
-from courses_app import app, flask_bcrypt
-from courses_app.model import db, User, Doc
-from courses_app.forms import RegistrationForm, LoginForm
+from autopsy_app import app, flask_bcrypt
+from autopsy_app.model import db, User, Doc
+from autopsy_app.forms import RegistrationForm, LoginForm
 
 @app.route('/')
 @login_required
@@ -51,5 +51,6 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/profile')
+@login_required
 def profile():
     return render_template('profile.html')
