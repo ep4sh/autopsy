@@ -16,7 +16,7 @@ def login():
         return redirect(url_for('dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(user_name=form.username.data).first()
+        user = User.query.filter_by(user_email=form.email.data).first()
         if user and flask_bcrypt.check_password_hash(user.user_password,
                                                form.password.data):
             login_user(user, remember=form.remember.data)
@@ -38,10 +38,11 @@ def register():
     if form.validate_on_submit():
         hashed_pw =  flask_bcrypt.generate_password_hash(form.password.data)\
                                                    .decode('utf-8')
-        user = User(user_name=form.username.data, user_password=hashed_pw)
+        user = User(user_email=form.email.data, user_password=hashed_pw,
+                    user_name=form.name.data)
         db.session.add(user)
         db.session.commit()
-        flash(f"An account {form.username.data} has been created", 'success')
+        flash(f"An account {form.email.data} has been created", 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 

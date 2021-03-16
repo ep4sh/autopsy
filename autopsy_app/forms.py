@@ -6,28 +6,28 @@ from autopsy_app.model import User
 
 
 class RegistrationForm(FlaskForm):
-    # Email == Username
-    username = StringField('E-mail',
+    name = StringField('Name', validators=[DataRequired(), Length(max=20)])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(),
+                             Length(min=3, max=20)])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(),
+                                                 Length(min=3, max=20),
+                                                 EqualTo('password')])
+    submit = SubmitField('Sign up')
+
+    def validate_email(self, email):
+        email = User.query.filter_by(user_email=email.data).first()
+        if email:
+            msg = "Account is already exist, see below to reset your password"
+            raise ValidationError(msg)
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password',
                              validators=[DataRequired(),
                                          Length(min=3, max=20)])
-    confirm_password = PasswordField('Confirm Password',
-                                      validators=[DataRequired(),
-                                                  Length(min=3, max=20),
-                                                  EqualTo('password')])
-    submit = SubmitField('Sign up')
-
-    def validate_username(self, username):
-        user = User.query.filter_by(user_name=username.data).first()
-        if user:
-            msg = "Username is already taken.."
-            raise ValidationError(msg)
-
-class LoginForm(FlaskForm):
-    username = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    password = PasswordField('Password',
-                           validators=[DataRequired(), Length(min=3, max=20)])
     remember = BooleanField('Remember me')
     submit = SubmitField('Sign in')

@@ -1,4 +1,4 @@
-{% extends "user.html" %}
+{% extends "user_menu.html" %}
 
 {% block title %}
   <title>Autopsy: Profile</title>
@@ -7,9 +7,9 @@
 
 
 {% block middle_layer %}
-  <div class="">
+  <div>
     <div class="w-100">
-      <h1>Welcome, username</h1>
+      <h1>Welcome, {{ current_user.user_name }}</h1>
     </div>
   </div>
 {% endblock middle_layer %}

@@ -9,19 +9,19 @@
           {{ form.hidden_tag() }}
 
           <div class="form-group">
-            {{ form.username.label(class="form-control-label") }}
+            {{ form.email.label(class="form-control-label") }}
 
-            {% if form.username.errors %}
-              {{ form.username(class="form-control form-control-md is-invalid") }}
+            {% if form.email.errors %}
+              {{ form.email(class="form-control form-control-md is-invalid") }}
               <div class="invalid-feedback">
-                {% for err in form.username.errors %}
+                {% for err in form.email.errors %}
                   <span>
                     {{ error }}
                   </span>
                 {% endfor%}
               </div>
             {% else %}
-              {{ form.username(class="form-control form-control-md") }}
+              {{ form.email(class="form-control form-control-md") }}
             {% endif %}
 
           </div>

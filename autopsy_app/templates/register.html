@@ -11,18 +11,34 @@
           <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
           <div class="form-group">
-            {{ form.username.label(class="form-control-label") }}
-            {% if form.username.errors %}
-              {{ form.username(class="form-control form-control-md is-invalid") }}
+            {{ form.name.label(class="form-control-label") }}
+            {% if form.name.errors %}
+              {{ form.name(class="form-control form-control-md is-invalid") }}
               <div class="invalid-feedback">
-                {% for err in form.username.errors %}
+                {% for err in form.name.errors %}
                   <span>
                     {{ err }}
                   </span>
                 {% endfor%}
               </div>
             {% else %}
-              {{ form.username(class="form-control form-control-md") }}
+              {{ form.name(class="form-control form-control-md") }}
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            {{ form.email.label(class="form-control-label") }}
+            {% if form.email.errors %}
+              {{ form.email(class="form-control form-control-md is-invalid") }}
+              <div class="invalid-feedback">
+                {% for err in form.email.errors %}
+                  <span>
+                    {{ err }}
+                  </span>
+                {% endfor%}
+              </div>
+            {% else %}
+              {{ form.email(class="form-control form-control-md") }}
             {% endif %}
           </div>
 

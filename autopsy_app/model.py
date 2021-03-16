@@ -5,6 +5,7 @@ from autopsy_app import app, login_manager
 
 db = SQLAlchemy(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -14,13 +15,13 @@ class User(db.Model, UserMixin):
     # do not rename id - flask_login may become broken
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(20), unique=True, nullable=False)
+    user_email = db.Column(db.String(20), unique=True, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_image = db.Column(db.String(20), default='default.jpg')
     docs = db.relationship('Doc', backref='author', lazy=True)
 
     def __repr__(self):
-        return f"User('{self.user_name}', '{self.user_image}')"
-
+        return f"User('{self.user_email}', '{self.user_name}', '{self.user_image}')"
 
 
 class Doc(db.Model):
