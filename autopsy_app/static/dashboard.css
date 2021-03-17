@@ -123,15 +123,23 @@
 }
 
 .userava {
- width: 15%;
+ width: 35%;
  vertical-align: middle;
  border-radius: 50%;
  border: 1px solid #d2d2;
 }
 
 .ava {
- width: 25%;
+ width: 20%;
  vertical-align: middle;
  border-radius: 50%;
  border: 1px solid #d2d2;
+ margin-left: 1rem;
+}
+
+/*
+ * Mortem
+ */
+.mortem-content {
+height: 15rem;
 }

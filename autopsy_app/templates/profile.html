@@ -7,7 +7,6 @@
 {% block middle_layer %}
   <div>
     <div class="col-lg-8">
-      <h5>Good mortem,</h5>
 
         <div>
           {% with messages = get_flashed_messages(with_categories=true) %}
@@ -24,9 +23,10 @@
           {{ form.hidden_tag() }}
 
           <div class="col-lg-4">
-            <div class="media">
+            <div class="media text-center">
+              <h3>Good mortem,</h3>
               <img class="userava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
-              {{ current_user.user_name }}
+              <h5>{{ current_user.user_name }}</h5>
             </div>
             <div class="form-group py-2 my-2">
               {{ form.name.label(class="form-control-label") }}
@@ -79,17 +79,22 @@
               {% endif %}
             </div>
 
+            <div class="my-3">
+                <p>Avatar collection</p>
+                <p class="text-center">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie.png') }}">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie-2.png') }}">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie-3.png') }}">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie-4.png') }}">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie-5.png') }}">
+                  <img class="ava" src="{{ url_for('static', filename='ava/zombie-6.png') }}">
+                </p>
+            </div>
+
             <div class="form-group py-2 my-2">
               {{ form.submit(class="btn btn-lg btn-outline-success btn-block") }}
             </div>
-          </div>
-          <div class="m-5 p-3">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-2.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-3.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-4.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-5.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-6.png') }}">
+
           </div>
         </form>
     </div>
