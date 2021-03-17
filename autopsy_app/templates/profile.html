@@ -4,12 +4,94 @@
   <title>Autopsy: Profile</title>
 {% endblock title %}
 
-
-
 {% block middle_layer %}
   <div>
-    <div class="w-100">
-      <h1>Welcome, {{ current_user.user_name }}</h1>
+    <div class="col-lg-8">
+      <h5>Good mortem,</h5>
+
+        <div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+        <form class="form-profile d-flex" action="" method="POST">
+          {{ form.hidden_tag() }}
+
+          <div class="col-lg-4">
+            <div class="media">
+              <img class="userava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
+              {{ current_user.user_name }}
+            </div>
+            <div class="form-group py-2 my-2">
+              {{ form.name.label(class="form-control-label") }}
+              {% if form.name.errors %}
+                {{ form.name(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.name.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.name(class="form-control form-control-md",
+                placeholder=current_user.user_name) }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.password.label(class="form-control-label") }}
+              {% if form.password.errors %}
+                {{ form.password(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.password.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.password(class="form-control form-control-md",
+                  placeholder="******") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.confirm_password.label(class="form-control-label") }}
+              {% if form.confirm_password.errors %}
+                {{ form.confirm_password(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.confirm_password.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.confirm_password(class="form-control form-control-md",
+                  placeholder="******") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.submit(class="btn btn-lg btn-outline-success btn-block") }}
+            </div>
+          </div>
+          <div class="m-5 p-3">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie.png') }}">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie-2.png') }}">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie-3.png') }}">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie-4.png') }}">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie-5.png') }}">
+                <img class="ava" src="{{ url_for('static', filename='ava/zombie-6.png') }}">
+          </div>
+        </form>
     </div>
   </div>
 {% endblock middle_layer %}

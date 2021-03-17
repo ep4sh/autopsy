@@ -122,5 +122,16 @@
   border-top-right-radius: 0;
 }
 
-.content {
+.userava {
+ width: 15%;
+ vertical-align: middle;
+ border-radius: 50%;
+ border: 1px solid #d2d2;
+}
+
+.ava {
+ width: 25%;
+ vertical-align: middle;
+ border-radius: 50%;
+ border: 1px solid #d2d2;
 }
