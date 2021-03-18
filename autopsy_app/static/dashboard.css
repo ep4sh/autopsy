@@ -83,7 +83,6 @@
   height: 2rem;
   margin-left: 0.35rem;
   margin-right: 0.35rem;
-
 }
 
 .logo-link {
@@ -137,9 +136,51 @@
  margin-left: 1rem;
 }
 
+.small-ava {
+ width: 10%;
+ vertical-align: bottom;
+ border-radius: 50%;
+ border: 1px solid #d2d2;
+}
+
 /*
  * Mortem
  */
-.mortem-content {
-height: 15rem;
+.add-mortem-content {
+  height: 15rem;
 }
+
+.mortem-tab {
+  background-color: #ebebec;
+  border-right: 1px solid #c5c5c5;
+  padding: 0.75rem 1.75rem;
+}
+
+.mortem-tab-focus {
+  padding: 0.75rem 1.75rem;
+  background-color: #fff;
+}
+
+.mortem-tab a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #666;
+}
+
+.mortem-tab-focus a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #666;
+}
+
+.mortem-tab a:hover {
+  border-bottom: 1px solid #d2d2;
+  text-decoration: none;
+  color: #8a2be2;
+}
+
+.mortem-body {
+  background-color: #fff;
+  height: calc(100vh - 12px);
+}
+

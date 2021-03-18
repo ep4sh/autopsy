@@ -45,3 +45,7 @@ class ProfileForm(FlaskForm):
     submit = SubmitField('Update Profile')
 
 
+class PostmortemForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(max=100)])
+    mortem = TextAreaField('Mortem details', validators=[DataRequired()])
+    submit = SubmitField('Add Postmortem')

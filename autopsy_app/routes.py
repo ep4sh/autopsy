@@ -1,8 +1,11 @@
+import datetime
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app, flask_bcrypt
-from autopsy_app.model import db, User, Doc
+from autopsy_app.model import db, User, Mortem
 from autopsy_app.forms import RegistrationForm, LoginForm, ProfileForm
+from autopsy_app.forms import PostmortemForm
+
 
 @app.route('/')
 @login_required
@@ -18,7 +21,8 @@ def login():
     if request.method == "POST":
         if form.validate_on_submit():
             user = User.query.filter_by(user_email=form.email.data).first()
-            if user and flask_bcrypt.check_password_hash(user.user_password, form.password.data):
+            if user and flask_bcrypt.check_password_hash(user.user_password,
+                                                         form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
                 redirect(url_for('dashboard'))
@@ -27,7 +31,7 @@ def login():
                 else:
                     redirect(url_for('dashboard'))
             else:
-                flash(f"Login failed - check the credentials", 'danger')
+                flash('Login failed - check the credentials', 'danger')
     return render_template('login.html', form=form)
 
 
@@ -47,10 +51,12 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -62,14 +68,35 @@ def profile():
         current_user.user_name = form.name.data
         current_user.password = hashed_pw
         db.session.commit()
-        flash(f"An account has been updated", 'success')
+        flash('An account has been updated', 'success')
         return redirect(url_for('profile'))
     return render_template('profile.html', form=form)
 
+
+@app.route('/postmortems/add', methods=['GET', 'POST'])
+@login_required
+def add_postmortem():
+    form = PostmortemForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.mortem.data
+        now = datetime.datetime.utcnow()
+        uid = current_user.id
+        mortem = Mortem(mortem_name=title, mortem_content=content,
+                        mortem_created=now, mortem_updated=now, user_id=uid)
+        db.session.add(mortem)
+        db.session.commit()
+        flash('The mortem has been added', 'success')
+        return redirect(url_for('add_postmortem'))
+    return render_template('add_postmortem.html', form=form)
+
+
 @app.route('/postmortems')
 @login_required
-def postmortem():
-    pass
+def postmortems():
+    mortems = Mortem.query.all()
+    return render_template('postmortems.html', mortems=mortems)
+
 
 @app.route('/notifications')
 @login_required

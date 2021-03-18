@@ -1,0 +1,41 @@
+{% extends "user_menu.html" %}
+
+{% block title %}
+  <title>Autopsy: Postmortems</title>
+{% endblock title %}
+
+{% block middle_layer %}
+  <div class="container">
+    <div class="flex-row d-flex">
+      <div class="mortem-tab-focus">
+        <a href="{{ url_for('postmortems')  }}">Postmortems</a>
+      </div>
+      <div class="mortem-tab">
+        <a href="{{ url_for('add_postmortem')  }}">New
+          <span data-feather="plus-square"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="flex-row">
+      <h1>Latest postmortems</h1>
+      <div class="d-flex">
+        {% for mortem in mortems %}
+          <div>
+            <div class="flex-fill border border-dark m-3 p-5">
+              <h5>
+                <img class="small-ava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
+                <a href="{{ mortem.author.email }}">{{ mortem.author.user_name }}</a>
+              </h5>
+              <h3>
+                <a href="{{ mortem.url }}">{{ mortem.mortem_name }}</a>
+              </h3>
+              <p>Created: {{ mortem.mortem_created }}</p>
+              <p>Last updated: {{ mortem.mortem_created }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock middle_layer %}
