@@ -67,6 +67,8 @@ def profile():
                                                         .decode('utf-8')
         current_user.user_name = form.name.data
         current_user.password = hashed_pw
+        current_user.user_image = form.avatar.data if form.avatar.data != "" \
+                                  else current_user.user_image
         db.session.commit()
         flash('An account has been updated', 'success')
         return redirect(url_for('profile'))

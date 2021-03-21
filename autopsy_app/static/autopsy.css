@@ -132,7 +132,15 @@
  width: 20%;
  vertical-align: middle;
  border-radius: 50%;
- border: 1px solid #d2d2;
+ border: 0.1rem solid #d2d2;
+ margin-left: 1rem;
+}
+
+.ava-clicked {
+ width: 20%;
+ vertical-align: middle;
+ border-radius: 50%;
+ border: 0.5rem solid #8a2be2;
  margin-left: 1rem;
 }
 

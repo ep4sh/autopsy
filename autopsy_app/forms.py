@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms import TextAreaField
+from wtforms import TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from wtforms.validators import ValidationError
 from autopsy_app.model import User
@@ -42,8 +42,8 @@ class ProfileForm(FlaskForm):
                                      validators=[DataRequired(),
                                                  Length(min=3, max=20),
                                                  EqualTo('password')])
+    avatar =  HiddenField('Avatar')
     submit = SubmitField('Update Profile')
-
 
 class PostmortemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=100)])

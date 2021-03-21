@@ -85,13 +85,28 @@
           <div class="my-3">
               <p>Avatar collection</p>
               <p class="text-center">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-2.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-3.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-4.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-5.png') }}">
-                <img class="ava" src="{{ url_for('static', filename='ava/zombie-6.png') }}">
+                <img id="zombie" onclick="return setAva('zombie')" class="ava" src="{{ url_for('static', filename='ava/zombie.png') }}">
+                <img id="zombie-2" onclick="return setAva('zombie-2')" class="ava" src="{{ url_for('static', filename='ava/zombie-2.png') }}">
+                <img id="zombie-3" onclick="return setAva('zombie-3')" class="ava" src="{{ url_for('static', filename='ava/zombie-3.png') }}">
+                <img id="zombie-4" onclick="return setAva('zombie-4')" class="ava" src="{{ url_for('static', filename='ava/zombie-4.png') }}">
+                <img id="zombie-5" onclick="return setAva('zombie-5')" class="ava" src="{{ url_for('static', filename='ava/zombie-5.png') }}">
+                <img id="zombie-6" onclick="return setAva('zombie-6')" class="ava" src="{{ url_for('static', filename='ava/zombie-6.png') }}">
               </p>
+          </div>
+
+          <div class="form-group py-2 my-2">
+            {% if form.avatar.errors %}
+              {{ form.avatar(class="form-control form-control-md is-invalid") }}
+              <div class="invalid-feedback">
+                {% for err in form.avatar.errors %}
+                  <span>
+                    {{ err }}
+                  </span>
+                {% endfor%}
+              </div>
+            {% else %}
+              {{ form.avatar(class="form-control form-control-md") }}
+            {% endif %}
           </div>
 
           <div class="form-group py-2 my-2">
