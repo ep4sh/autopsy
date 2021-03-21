@@ -30,6 +30,7 @@ class Mortem(db.Model):
     __tablename__ = 'mortems'
     id = db.Column(db.Integer, primary_key=True)
     mortem_name = db.Column(db.String(100), nullable=False)
+    mortem_url = db.Column(db.String(16), nullable=False)
     mortem_content = db.Column(db.Text(), nullable=False)
     mortem_created = db.Column(db.DateTime, nullable=False,
                                default=datetime.utcnow)

@@ -5,6 +5,7 @@ from autopsy_app import app, flask_bcrypt
 from autopsy_app.model import db, User, Mortem
 from autopsy_app.forms import RegistrationForm, LoginForm, ProfileForm
 from autopsy_app.forms import PostmortemForm
+from autopsy_app.funcs import define_mortem_url
 
 
 @app.route('/')
@@ -82,10 +83,12 @@ def add_postmortem():
     if form.validate_on_submit():
         title = form.title.data
         content = form.mortem.data
+        url = define_mortem_url()
         now = datetime.datetime.utcnow()
         uid = current_user.id
         mortem = Mortem(mortem_name=title, mortem_content=content,
-                        mortem_created=now, mortem_updated=now, user_id=uid)
+                        mortem_url=url, mortem_created=now,
+                        mortem_updated=now, user_id=uid)
         db.session.add(mortem)
         db.session.commit()
         flash('The mortem has been added', 'success')
