@@ -1,11 +1,10 @@
-{% extends "user_menu.html" %}
+{% extends "base/middle_layer.html" %}
 
 {% block title %}
   <title>Autopsy: Postmortems</title>
 {% endblock title %}
 
-{% block middle_layer %}
-  <div class="container">
+{% block content_top %}
     <div class="flex-row d-flex">
       <div class="mortem-tab-focus">
         <a href="{{ url_for('postmortems')  }}">Postmortems</a>
@@ -16,26 +15,28 @@
         </a>
       </div>
     </div>
+{% endblock content_top %}
 
+{% block content_body %}
     <div class="flex-row">
       <h1>Latest postmortems</h1>
-      <div class="d-flex">
         {% for mortem in mortems %}
-          <div>
-            <div class="flex-fill border border-dark m-3 p-5">
-              <h5>
-                <img class="small-ava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
-                <a href="{{ mortem.author.email }}">{{ mortem.author.user_name }}</a>
-              </h5>
-              <h3>
-                <a href="{{ mortem.url }}">{{ mortem.mortem_name }}</a>
-              </h3>
-              <p>Created: {{ mortem.mortem_created }}</p>
-              <p>Last updated: {{ mortem.mortem_created }}</p>
-            </div>
+          <div class="mortem m-2 p-3">
+            <h5>
+              <img class="small-ava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
+              <a href="{{ mortem.author.email }}">{{ mortem.author.user_name }}</a>
+            </h5>
+            <h3>
+              <a href="{{ mortem.url }}">{{ mortem.mortem_name }}</a>
+            </h3>
+            <p>
+            <small>Created: {{ mortem.mortem_created }} </small>
+            </p>
+            <p>
+              <small>Last updated: {{ mortem.mortem_created }}</small>
+            </p>
           </div>
         {% endfor %}
-      </div>
     </div>
-  </div>
-{% endblock middle_layer %}
+{% endblock content_body %}
+

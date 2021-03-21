@@ -137,7 +137,7 @@
 }
 
 .small-ava {
- width: 10%;
+ width: 5%;
  vertical-align: bottom;
  border-radius: 50%;
  border: 1px solid #d2d2;
@@ -184,3 +184,20 @@
   height: calc(100vh - 12px);
 }
 
+.mortem a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #666;
+}
+
+.mortem:hover {
+  background-color: #fff;
+  color: #000;
+  border-radius: 2rem;
+}
+
+.mortem a:hover {
+  border-bottom: 1px solid #d2d2;
+  text-decoration: none;
+  color: #8a2be2;
+}
