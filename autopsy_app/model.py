@@ -22,6 +22,8 @@ class User(db.Model, UserMixin):
     user_password = db.Column(db.String(100), nullable=False)
     user_image = db.Column(db.String(20), default='zombie.png')
     mortem = db.relationship('Mortem', backref='author', lazy=True)
+    support_case = db.relationship('Support',
+                                   backref='support_case_author', lazy=True)
 
     def __repr__(self):
         return f"User('{self.user_email}', '{self.user_name}', \
@@ -44,3 +46,19 @@ class Mortem(db.Model):
     def __repr__(self):
         return f"Mortem('{self.mortem_name}', '{self.user_id}', \
                      '{self.mortem_created}', '{self.mortem_updated}')"
+
+
+class Support(db.Model):
+    __tablename__ = 'support'
+    id = db.Column(db.Integer, primary_key=True)
+    support_subject = db.Column(db.String(100), nullable=False)
+    support_content = db.Column(db.Text(), nullable=False)
+    support_created = db.Column(db.DateTime, nullable=False,
+                                default=datetime.utcnow)
+    support_attach = db.Column(db.LargeBinary)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+                        nullable=False)
+
+    def __repr__(self):
+        return f"Support('{self.support_subject}', '{self.user_id}', \
+                     '{self.support_created}', '{self.support_attach}')"

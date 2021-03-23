@@ -1,0 +1,79 @@
+{% extends "base/middle_layer.html" %}
+
+{% block title %}
+  <title>Autopsy: Polundra!</title>
+{% endblock title %}
+
+{% block content_body %}
+  <div class="flex-row">
+    <div class="my-3">
+        <div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+        <form class="col-lg-8" action="" enctype="multipart/form-data" method="POST">
+          {{ form.hidden_tag() }}
+            <div class="form-group py-2 my-2">
+              {{ form.subject.label(class="form-control-label") }}
+              {% if form.subject.errors %}
+                {{ form.subject(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.subject.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.subject(class="form-control form-control-md",
+                placeholder="Something bad happened..") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.content.label(class="form-control-label") }}
+              {% if form.content.errors %}
+                {{ form.content(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.content.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.content(class="form-control form-control-md") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.attach.label() }}
+              {% if form.attach.errors %}
+                {{ form.attach(class="form-control-file is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.attach.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.attach(class="form-control-file") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
+              {{ form.submit(class="btn btn-lg btn-warning btn-block") }}
+            </div>
+        </form>
+    </div>
+  </div>
+{% endblock content_body %}
+

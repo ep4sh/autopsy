@@ -2,9 +2,9 @@ import datetime
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app, flask_bcrypt
-from autopsy_app.model import db, User, Mortem
+from autopsy_app.model import db, User, Mortem, Support
 from autopsy_app.forms import RegistrationForm, LoginForm, ProfileForm
-from autopsy_app.forms import PostmortemForm
+from autopsy_app.forms import PostmortemForm, SupportForm
 from autopsy_app.funcs import define_mortem_url
 
 
@@ -116,3 +116,27 @@ def get_postmortem(url):
 @login_required
 def notify():
     pass
+
+
+@app.route('/support', methods=['GET', 'POST'])
+@login_required
+def support():
+    form = SupportForm()
+    if form.validate_on_submit():
+        subject = form.subject.data
+        content = form.content.data
+        attach = form.attach.data
+        if attach:
+            attach_data = attach.read()
+        else:
+            attach_data = b''
+        now = datetime.datetime.utcnow()
+        uid = current_user.id
+        support_case = Support(support_subject=subject, support_content=content,
+                       support_created=now, support_attach=attach_data,
+                       user_id=uid)
+        db.session.add(support_case)
+        db.session.commit()
+        flash('The Support Case has been created', 'warning')
+        return redirect(url_for('support'))
+    return render_template('support.html', form=form)
