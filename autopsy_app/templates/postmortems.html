@@ -19,15 +19,14 @@
 
 {% block content_body %}
     <div class="flex-row">
-      <h1>Latest postmortems</h1>
-        {% for mortem in mortems %}
+        {% for mortem in mortems|reverse() %}
           <div class="mortem m-2 p-3">
             <h5>
               <img class="small-ava" src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
               <a href="mailto:{{ mortem.author.user_email }}?subject=Mail from Autopsy regarding {{ mortem.mortem_url }}">{{ mortem.author.user_name }}</a>
             </h5>
             <h3>
-              <a href="postmortems/{{ mortem.mortem_url }}">{{ mortem.mortem_name }}</a>
+              <a href="postmortems/{{ mortem.mortem_url }}">{{ mortem.mortem_name | truncate(60, True) }}</a>
             </h3>
             <p>
             <small>Created: {{ mortem.mortem_created }} </small>

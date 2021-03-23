@@ -68,12 +68,21 @@ def profile():
                                                         .decode('utf-8')
         current_user.user_name = form.name.data
         current_user.password = hashed_pw
-        current_user.user_image = form.avatar.data if form.avatar.data != "" \
-                                  else current_user.user_image
+        if form.avatar.data != "":
+            current_user.user_image = form.avatar.data
+        else:
+            current_user.user_image
         db.session.commit()
         flash('An account has been updated', 'success')
         return redirect(url_for('profile'))
     return render_template('profile.html', form=form)
+
+
+@app.route('/postmortems')
+@login_required
+def postmortems():
+    mortems = Mortem.query.all()
+    return render_template('postmortems.html', mortems=mortems)
 
 
 @app.route('/postmortems/add', methods=['GET', 'POST'])
@@ -96,11 +105,11 @@ def add_postmortem():
     return render_template('add_postmortem.html', form=form)
 
 
-@app.route('/postmortems')
+@app.route('/postmortems/<url>')
 @login_required
-def postmortems():
-    mortems = Mortem.query.all()
-    return render_template('postmortems.html', mortems=mortems)
+def get_postmortem(url):
+    mortem = Mortem.query.filter_by(mortem_url=url).first()
+    return render_template('get_postmortem.html', mortem=mortem)
 
 
 @app.route('/notifications')

@@ -22,7 +22,6 @@
 {% block content_body %}
   <div class="flex-row">
     <div class="my-3">
-      <h1>New postmortem</h1>
         <div>
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -34,7 +33,7 @@
             {% endif %}
           {% endwith %}
         </div>
-        <form class="form-profile col-lg-8" action="" method="POST">
+        <form class="col-lg-8" action="" method="POST">
           {{ form.hidden_tag() }}
             <div class="form-group py-2 my-2">
               {{ form.title.label(class="form-control-label") }}

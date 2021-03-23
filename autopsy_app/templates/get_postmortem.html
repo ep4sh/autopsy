@@ -1,0 +1,84 @@
+{% extends "base/middle_layer.html" %}
+
+{% block title %}
+  <title>Autopsy: Add Postmortem</title>
+{% endblock title %}
+
+
+
+{% block content_top %}
+  <div class="flex-row d-flex">
+    <div class="mortem-tab">
+      <a href="{{ url_for('postmortems')  }}">Postmortems</a>
+    </div>
+    <div class="mortem-tab-focus">
+      <a href="{{ mortem.mortem_url }}"> View
+        <span data-feather="trending-down"></span>
+      </a>
+    </div>
+    <div class="mortem-tab">
+      <a href="{{ url_for('add_postmortem')  }}">New
+        <span data-feather="plus-square"></span>
+      </a>
+    </div>
+  </div>
+{% endblock content_top %}
+
+{% block content_body %}
+  <div class="flex-row">
+    <div class="my-3">
+        <div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+
+       <div>
+         {% if mortem %}
+         <form class="col-lg-8">
+
+            <div class="input-group py-2 my-2">
+              <label class="input-group-text" for="title">Title</label>
+              <input class="form-control form-control-md" id="title" name="title" type="text" readonly value="{{ mortem.mortem_name }}">
+            </div>
+
+            <div class="input-group py-2 my-2">
+                <label class="input-group-text" for="author">Author</label>
+              <img class="small-ava" src="{{ url_for('static', filename="ava/"+mortem.author.user_image) }}">
+              <input class="form-control form-control-md" id="author" name="author" type="text" readonly value="{{ mortem.author.user_name }} aka {{ mortem.author.user_email}}">
+            </div>
+
+            <div class="input-group py-2 my-2">
+              <label class="input-group-text" for="created">Created</label>
+              <input class="form-control form-control-md" id="created" name="created" type="text" readonly value="{{ mortem.mortem_created }}">
+            </div>
+
+            <div class="input-group py-2 my-2">
+              <label class="input-group-text" for="updated">Updated</label>
+              <input class="form-control form-control-md" id="updated" name="updated" type="text" readonly value="{{ mortem.mortem_updated }}">
+            </div>
+
+            <div class="form-group py-2 my-2">
+              <label class="form-control-label" for="mortem">Mortem details</label>
+              <textarea class="form-control form-control-md add-mortem-content" id="mortem" name="mortem" readonly>{{ mortem.mortem_content }}</textarea>
+            </div>
+
+            <div class="form-group py-2 my-2">
+              <a href="{{ url_for('postmortems') }}">
+                <input class="btn btn-sm btn-outline-dark btn-block" id="back" name="back" type="button" value="Back">
+              </a>
+            </div>
+
+          </form>
+         {% endif %}
+       </div>
+    </div>
+  </div>
+{% endblock content_body %}
+
