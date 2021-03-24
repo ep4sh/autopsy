@@ -4,3 +4,46 @@
   <title>Autopsy Dashboard</title>
 {% endblock title %}
 
+{% block content_body %}
+
+<div class="flex-row d-flex my-3">
+
+	  <div class="col-md-5 mx-3">
+		<div class="card flex-md-row mb-4 box-shadow h-100">
+		  <div class="dashboard card-body d-flex flex-column align-items-start">
+			<strong class="d-inline-block mb-2 text-success"><span class="align-middle" data-feather="tag"></span> Recently added postmortems</strong>
+            {% if mortems %}
+              <ul>
+              {% for mortem in mortems %}
+                <li class="my-3 small">
+                  <span data-feather="corner-down-right"></span>
+                  <a class="text-dark" href="postmortems/{{ mortem.mortem_url }}">{{ mortem.mortem_name | truncate(30, True) }}</a>
+                  <br/>
+                  <small> {{ mortem.mortem_created.strftime("%d %B %Y") }}</small>
+                </li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="col-md-5 mx-3">
+		<div class="card flex-md-row mb-4 box-shadow h-100">
+		  <div class="card-body d-flex flex-column align-items-start">
+			<strong class="d-inline-block mb-2 text-success"><span class="align-middle" data-feather="help-circle"></span> Random postmortem</strong>
+            {% if rnd_mortem %}
+              <h3 class="my-3">
+                <a class="text-dark" href="postmortems/{{ rnd_mortem.mortem_url }}">{{ rnd_mortem.mortem_name | truncate(30, True) }}</a>
+              </h3>
+              <div class="mb-1 text-muted">{{ rnd_mortem.mortem_created.strftime("%d %B %Y") }}</div>
+              <p class="small"> Author: {{ rnd_mortem.author.user_name }} aka {{ rnd_mortem.author.user_email }}</p>
+            {% endif %}
+		  </div>
+		</div>
+	  </div>
+</div>
+
+
+{% endblock content_body %}
+

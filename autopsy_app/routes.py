@@ -5,13 +5,21 @@ from autopsy_app import app, flask_bcrypt
 from autopsy_app.model import db, User, Mortem, Support
 from autopsy_app.forms import RegistrationForm, LoginForm, ProfileForm
 from autopsy_app.forms import PostmortemForm, SupportForm
-from autopsy_app.funcs import define_mortem_url
+from autopsy_app.funcs import define_mortem_url, choose_random_mortem
 
 
 @app.route('/')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    # Getting recent postmortems
+    recent_mortems = Mortem.query.order_by(Mortem.mortem_created.desc()).\
+                    limit(3).all()
+    # Getting random postmortem
+    max_mortem_id = Mortem.query.order_by(Mortem.id.desc()).limit(1).first().id
+    rnd_mortem_id = choose_random_mortem(max_mortem_id)
+    rnd_mortem = Mortem.query.get(rnd_mortem_id)
+    return render_template('dashboard.html', mortems=recent_mortems,
+                           rnd_mortem=rnd_mortem)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -132,9 +140,10 @@ def support():
             attach_data = b''
         now = datetime.datetime.utcnow()
         uid = current_user.id
-        support_case = Support(support_subject=subject, support_content=content,
-                       support_created=now, support_attach=attach_data,
-                       user_id=uid)
+        support_case = Support(support_subject=subject,
+                               support_content=content,
+                               support_created=now, support_attach=attach_data,
+                               user_id=uid)
         db.session.add(support_case)
         db.session.commit()
         flash('The Support Case has been created', 'warning')

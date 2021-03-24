@@ -5,6 +5,13 @@
 }
 
 /*
+ * Dashboard
+ */
+.dashboard ul {
+   list-style-type: none;
+}
+
+/*
  * Sidebar
  */
 
