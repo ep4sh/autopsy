@@ -4,8 +4,6 @@
   <title>Autopsy: Add Postmortem</title>
 {% endblock title %}
 
-
-
 {% block content_top %}
   <div class="flex-row d-flex">
     <div class="mortem-tab">
@@ -13,7 +11,12 @@
     </div>
     <div class="mortem-tab-focus">
       <a href="{{ mortem.mortem_url }}"> View
-        <span data-feather="trending-down"></span>
+        <span data-feather="corner-right-down"></span>
+      </a>
+    </div>
+    <div class="mortem-tab">
+      <a href="{{ mortem.mortem_url  }}/update">Update
+        <span data-feather="refresh-cw"></span>
       </a>
     </div>
     <div class="mortem-tab">

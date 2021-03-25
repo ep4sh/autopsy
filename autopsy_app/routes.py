@@ -1,5 +1,5 @@
 import datetime
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app, flask_bcrypt
 from autopsy_app.model import db, User, Mortem, Support
@@ -118,6 +118,27 @@ def add_postmortem():
 def get_postmortem(url):
     mortem = Mortem.query.filter_by(mortem_url=url).first()
     return render_template('get_postmortem.html', mortem=mortem)
+
+
+@app.route('/postmortems/<url>/update', methods=['GET', 'POST'])
+@login_required
+def update_postmortem(url):
+    mortem = Mortem.query.filter_by(mortem_url=url).first()
+    if mortem.author != current_user:
+        abort(403)
+    form = PostmortemForm()
+    # passing value of Mortem content to the textarea
+    if form.validate_on_submit():
+        mortem.mortem_name = form.title.data
+        mortem.mortem_content = form.mortem.data
+        mortem.mortem_updated = datetime.datetime.utcnow()
+        db.session.commit()
+        flash('The mortem has been updated', 'success')
+        return redirect(url_for('get_postmortem', url=url))
+    elif request.method == "GET":
+        form.title.data = mortem.mortem_name
+        form.mortem.data = mortem.mortem_content
+    return render_template('update_postmortem.html', mortem=mortem, form=form)
 
 
 @app.route('/notifications')

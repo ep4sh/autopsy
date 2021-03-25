@@ -51,15 +51,15 @@ class ProfileForm(FlaskForm):
 class PostmortemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=100)])
     mortem = TextAreaField('Mortem details', validators=[DataRequired()])
-    submit = SubmitField('Add Postmortem')
+    submit = SubmitField('Postmortem!')
 
 
 class SupportForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired(),
                                                  Length(max=100)])
     content = TextAreaField('Case details',
-                                    validators=[DataRequired()])
+                            validators=[DataRequired()])
     attach = FileField('Attach a screenshot',
-                               validators=[FileAllowed(['jpg','png'],
-                                                       'Images only!')])
+                       validators=[FileAllowed(['jpg', 'png'],
+                                               'Images only!')])
     submit = SubmitField('Request for help')

@@ -1,0 +1,84 @@
+{% extends "base/middle_layer.html" %}
+
+{% block title %}
+  <title>Autopsy: Update Postmortem</title>
+{% endblock title %}
+
+
+{% block content_top %}
+  <div class="flex-row d-flex">
+    <div class="mortem-tab">
+      <a href="{{ url_for('postmortems')  }}">Postmortems</a>
+    </div>
+    <div class="mortem-tab-focus">
+      <a href="{{ mortem.mortem_url }}"> Update
+        <span data-feather="refresh-cw"></span>
+      </a>
+    </div>
+    <div class="mortem-tab">
+      <a href="{{ url_for('add_postmortem')  }}">New
+        <span data-feather="plus-square"></span>
+      </a>
+    </div>
+  </div>
+{% endblock content_top %}
+
+{% block content_body %}
+  <div class="flex-row">
+    {% if mortem %}
+      <div class="my-3">
+          <div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
+          <form class="col-lg-8" action="" method="POST">
+            {{ form.hidden_tag() }}
+              <div class="form-group py-2 my-2">
+                {{ form.title.label(class="form-control-label") }}
+                {% if form.title.errors %}
+                  {{ form.title(class="form-control form-control-md is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for err in form.title.errors %}
+                      <span>
+                        {{ err }}
+                      </span>
+                    {% endfor%}
+                  </div>
+                {% else %}
+                  {{ form.title(class="form-control form-control-md",
+                  value=mortem.mortem_name) }}
+                {% endif %}
+              </div>
+
+              <div class="form-group py-2 my-2">
+                {{ form.mortem.label(class="form-control-label") }}
+                {% if form.mortem.errors %}
+                  {{ form.mortem(class="form-control form-control-md add-mortem-content is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for err in form.mortem.errors %}
+                      <span>
+                        {{ err }}
+                      </span>
+                    {% endfor%}
+                  </div>
+                {% else %}
+                  {{ form.mortem(class="form-control form-control-md add-mortem-content") }}
+                {% endif %}
+              </div>
+
+              <div class="form-group py-2 my-2">
+                {{ form.submit(class="btn btn-lg btn-outline-dark btn-block") }}
+              </div>
+          </form>
+      </div>
+    {% endif %}
+  </div>
+{% endblock content_body %}
+
