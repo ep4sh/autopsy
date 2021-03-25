@@ -1,0 +1,41 @@
+{% extends "base/middle_layer.html" %}
+
+{% block title %}
+  <title>Autopsy: Search</title>
+{% endblock title %}
+
+{% block content_top %}
+    <div class="flex-row d-flex">
+        <form class="d-flex col-8 mx-5 px-5" action="" method="POST">
+          <input class="form-control col-1" type="text" name="search_query" placeholder="Type to search" aria-label="Search">
+          <button class="btn form-control btn-outline-autopsy" name="search" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+{% endblock content_top %}
+
+
+{% block content_body %}
+  {% if mortems %}
+    <div class="flex-row">
+        {% for mortem in mortems|reverse() %}
+          <div class="mortem m-2 p-3">
+            <h5>
+              <img class="small-ava" src="{{ url_for('static', filename="ava/"+mortem.author.user_image) }}">
+              <a href="mailto:{{ mortem.author.user_email }}?subject=Mail from Autopsy regarding {{ mortem.mortem_url }}">{{ mortem.author.user_name }}</a>
+            </h5>
+            <h3>
+              <a href="postmortems/{{ mortem.mortem_url }}">{{ mortem.mortem_name | truncate(60, True) }}</a>
+            </h3>
+            <p>
+            <small>Created: {{ mortem.mortem_created }} </small>
+            </p>
+            <p>
+              <small>Last updated: {{ mortem.mortem_created }}</small>
+            </p>
+          </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+{% endblock content_body %}
+

@@ -141,10 +141,16 @@ def update_postmortem(url):
     return render_template('update_postmortem.html', mortem=mortem, form=form)
 
 
-@app.route('/notifications')
+@app.route('/search', methods=['GET', 'POST'])
 @login_required
-def notify():
-    pass
+def search():
+    if request.method == 'POST':
+        query = request.form['search_query']
+        mortems = Mortem.query.filter(
+                  Mortem.mortem_name.like(f"%{query}%") ).all()
+    else:
+        mortems = None
+    return render_template('search.html', mortems=mortems)
 
 
 @app.route('/support', methods=['GET', 'POST'])

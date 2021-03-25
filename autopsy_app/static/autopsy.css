@@ -72,13 +72,13 @@
 }
 
 .btn-outline-autopsy {
-  border: 0.05rem solid #8a2be2;
   color: #fff;
+  background-color: #8a2be2;
 }
 
 .btn-outline-autopsy:hover{
+  border: 0.05rem solid #8a2be2;
   color: #fff;
-  background-color: #8a2be2;
 }
 
 /*
@@ -128,11 +128,22 @@
   border-top-right-radius: 0;
 }
 
+.menuprofile {
+  color: #fff;
+}
+
+.menuprofile img{
+ width: 35%;
+ vertical-align: middle;
+ border-radius: 50%;
+ border: 0.15rem solid #d2d2;
+}
+
 .userava {
  width: 35%;
  vertical-align: middle;
  border-radius: 50%;
- border: 1px solid #d2d2;
+ border: 0.15rem solid #d2d2;
 }
 
 .ava {

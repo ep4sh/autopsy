@@ -63,3 +63,8 @@ class SupportForm(FlaskForm):
                        validators=[FileAllowed(['jpg', 'png'],
                                                'Images only!')])
     submit = SubmitField('Request for help')
+
+
+class SearchForm(FlaskForm):
+    title = StringField('Type to search', validators=[DataRequired(), Length(max=100)])
+    submit = SubmitField('help')

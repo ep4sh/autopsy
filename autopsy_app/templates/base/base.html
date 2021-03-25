@@ -26,10 +26,12 @@
                 Autopsy
               </a>
             </div>
-            <form class="d-flex col-3 mx-5 px-3">
-              <input class="form-control col-1" type="text" placeholder="Type to search" aria-label="Search">
-              <button class="btn form-control btn-outline-autopsy" type="submit">Search</button>
-            </form>
+            <div class="d-flex col-1 align-items-center justify-content-end menuprofile">
+              <h5 class="align-center">{{ current_user.user_name }}</h5>
+              <a href="{{ url_for('profile') }}">
+                <img src="{{ url_for('static', filename="ava/"+current_user.user_image) }}">
+              </a>
+            </div>
           </div>
         </nav>
 
