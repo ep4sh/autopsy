@@ -2,13 +2,13 @@ import datetime
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app
+from autopsy_app.admin import adm
 from autopsy_app.model import db, User, Mortem, Support
 from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
                                PostmortemForm, SupportForm, RequestResetForm,
                                ResetForm)
 from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
                                send_email, generate_password, verify_password)
-
 
 @app.route('/')
 @login_required
@@ -40,7 +40,7 @@ def reset():
                 return redirect(url_for('login'))
             else:
                 flash('Reset failed - check the login', 'danger')
-                return  redirect(url_for('login'))
+                return redirect(url_for('login'))
     now = datetime.datetime.utcnow()
     return render_template('reset.html', form=form, now=now)
 
@@ -59,7 +59,7 @@ def reset_password(token):
             user.user_password = generate_password(form.password.data)
             db.session.commit()
             flash(f'An password for {user.user_email} has been reset',
-                  f'success')
+                  'success')
             return redirect(url_for('login'))
     now = datetime.datetime.utcnow()
     return render_template('reset_pass.html', form=form, now=now)
@@ -219,3 +219,4 @@ def support():
         flash('The Support Case has been created', 'warning')
         return redirect(url_for('support'))
     return render_template('support.html', form=form)
+

@@ -1,9 +1,8 @@
 import sys
 import string
 import random
-from flask_mail import Message
 from flask import url_for
-
+from flask_mail import Message
 from autopsy_app import app, flask_bcrypt, mail
 from autopsy_app.model import Mortem
 
