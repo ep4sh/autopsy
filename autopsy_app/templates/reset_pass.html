@@ -1,0 +1,59 @@
+{% extends "base/base_register.html" %}
+
+{% block title %}
+    <title>Autopsy: Reset a password</title>
+{% endblock title %}
+
+{% block aaa_form %}
+
+      <form class="form-signin" action="" method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.password.label(class="form-control-label") }}
+          {% if form.password.errors %}
+            {{ form.password(class="form-control form-control-md is-invalid") }}
+            <div class="invalid-feedback">
+              {% for err in form.password.errors %}
+                <span>
+                  {{ err }}
+                </span>
+              {% endfor%}
+            </div>
+          {% else %}
+            {{ form.password(class="form-control form-control-md") }}
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.confirm_password.label(class="form-control-label") }}
+          {% if form.confirm_password.errors %}
+            {{ form.confirm_password(class="form-control form-control-md is-invalid") }}
+            <div class="invalid-feedback">
+              {% for err in form.confirm_password.errors %}
+                <span>
+                  {{ err }}
+                </span>
+              {% endfor%}
+            </div>
+          {% else %}
+            {{ form.confirm_password(class="form-control form-control-md") }}
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.submit(class="btn btn-lg btn-outline-dark btn-block") }}
+        </div>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ now.strftime("%Y") }}</p>
+        <div class="border-top">
+          <small>
+            <div>
+              <a class="ml-2" href="{{ url_for('login') }}"> Sign In </a>
+            </div>
+          </small>
+        </div>
+      </form>
+
+{% endblock aaa_form %}
+

@@ -2,6 +2,7 @@ from datetime import datetime
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from autopsy_app import app, login_manager
 
 db = SQLAlchemy(app)
@@ -28,6 +29,19 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.user_email}', '{self.user_name}', \
                 '{self.user_image}')"
+
+    def generate_token(self, exprire_seconds=300):
+        s = Serializer(app.config['SECRET_KEY'], exprire_seconds)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @classmethod
+    def verify_token(self, token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except Exception:
+            return None
+        return User.query.get(user_id)
 
 
 class Mortem(db.Model):

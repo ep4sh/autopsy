@@ -1,11 +1,13 @@
 import datetime
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, current_user, login_required
-from autopsy_app import app, flask_bcrypt
+from autopsy_app import app
 from autopsy_app.model import db, User, Mortem, Support
-from autopsy_app.forms import RegistrationForm, LoginForm, ProfileForm
-from autopsy_app.forms import PostmortemForm, SupportForm
-from autopsy_app.funcs import define_mortem_url, choose_random_mortem
+from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
+                               PostmortemForm, SupportForm, RequestResetForm,
+                               ResetForm)
+from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
+                               send_email, generate_password, verify_password)
 
 
 @app.route('/')
@@ -22,6 +24,47 @@ def dashboard():
                            rnd_mortem=rnd_mortem)
 
 
+@app.route('/reset', methods=['GET', 'POST'])
+def reset():
+    if current_user.is_authenticated:
+        return redirect("/")
+    form = RequestResetForm()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User.query.filter_by(user_email=form.email.data).first()
+            if user:
+                token = user.generate_token()
+                send_email(user.user_email, token)
+                flash('Reset URL has been sent to your email',
+                      'info')
+                return redirect(url_for('login'))
+            else:
+                flash('Reset failed - check the login', 'danger')
+                return  redirect(url_for('login'))
+    now = datetime.datetime.utcnow()
+    return render_template('reset.html', form=form, now=now)
+
+
+@app.route('/reset/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect("/")
+    user = User.verify_token(token)
+    if user is None:
+        flash('A token has been expired', 'warning')
+        return redirect(url_for('reset'))
+    form = ResetForm()
+    if request.method == "POST" and user:
+        if form.validate_on_submit():
+            user.user_password = generate_password(form.password.data)
+            db.session.commit()
+            flash(f'An password for {user.user_email} has been reset',
+                  f'success')
+            return redirect(url_for('login'))
+    now = datetime.datetime.utcnow()
+    return render_template('reset_pass.html', form=form, now=now)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -30,18 +73,19 @@ def login():
     if request.method == "POST":
         if form.validate_on_submit():
             user = User.query.filter_by(user_email=form.email.data).first()
-            if user and flask_bcrypt.check_password_hash(user.user_password,
-                                                         form.password.data):
+            if user and verify_password(user.user_password,
+                                        form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
-                redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard'))
                 if next_page:
                     return redirect(next_page)
                 else:
-                    redirect(url_for('dashboard'))
+                    return redirect(url_for('dashboard'))
             else:
                 flash('Login failed - check the credentials', 'danger')
-    return render_template('login.html', form=form)
+    now = datetime.datetime.utcnow()
+    return render_template('login.html', form=form, now=now)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -50,15 +94,15 @@ def register():
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_pw = flask_bcrypt.generate_password_hash(form.password.data)\
-                                                        .decode('utf-8')
+        hashed_pw = generate_password(form.password.data)
         user = User(user_email=form.email.data, user_password=hashed_pw,
                     user_name=form.name.data)
         db.session.add(user)
         db.session.commit()
         flash(f"An account {form.email.data} has been created", 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    now = datetime.datetime.utcnow()
+    return render_template('register.html', form=form, now=now)
 
 
 @app.route('/logout')
@@ -72,8 +116,7 @@ def logout():
 def profile():
     form = ProfileForm()
     if form.validate_on_submit():
-        hashed_pw = flask_bcrypt.generate_password_hash(form.password.data)\
-                                                        .decode('utf-8')
+        hashed_pw = generate_password(form.password.data)
         current_user.user_name = form.name.data
         current_user.password = hashed_pw
         if form.avatar.data != "":
@@ -147,7 +190,7 @@ def search():
     if request.method == 'POST':
         query = request.form['search_query']
         mortems = Mortem.query.filter(
-                  Mortem.mortem_name.like(f"%{query}%") ).all()
+                  Mortem.mortem_name.like(f"%{query}%")).all()
     else:
         mortems = None
     return render_template('search.html', mortems=mortems)

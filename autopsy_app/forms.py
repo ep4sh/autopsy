@@ -66,5 +66,23 @@ class SupportForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    title = StringField('Type to search', validators=[DataRequired(), Length(max=100)])
+    title = StringField('Type to search', validators=[DataRequired(),
+                                                      Length(max=100)])
     submit = SubmitField('help')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Generate reset URL')
+
+
+class ResetForm(FlaskForm):
+    password = PasswordField('Password',
+                             validators=[DataRequired(),
+                                         Length(min=3, max=20)])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(),
+                                                 Length(min=3, max=20),
+                                                 EqualTo('password')])
+    submit = SubmitField('Update Password')

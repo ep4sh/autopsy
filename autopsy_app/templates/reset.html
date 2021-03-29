@@ -1,7 +1,7 @@
 {% extends "base/base_register.html" %}
 
 {% block title %}
-    <title>Autopsy: Sign In</title>
+    <title>Autopsy: Reset a password</title>
 {% endblock title %}
 
 {% block aaa_form %}
@@ -23,28 +23,6 @@
             {% else %}
               {{ form.email(class="form-control form-control-md") }}
             {% endif %}
-
-          </div>
-
-          <div class="form-group">
-            {{ form.password.label(class="form-control-label") }}
-            {% if form.password.errors %}
-              {{ form.password(class="form-control form-control-md is-invalid") }}
-              <div class="invalid-feedback">
-                {% for err in form.password.errors %}
-                  <span>
-                    {{ err }}
-                  </span>
-                {% endfor%}
-              </div>
-            {% else %}
-              {{ form.password(class="form-control form-control-md") }}
-            {% endif %}
-          </div>
-
-          <div class="checkbox mb-3">
-            {{ form.remember(class="form-check-input form-control-md") }}
-            {{ form.remember.label(class="form-check-label form-control-md") }}
           </div>
 
           <div class="form-group">
@@ -55,12 +33,7 @@
           <div class="border-top">
             <small>
               <div>
-                <a class="ml-2" href="{{ url_for('register') }}"> Have no account? </a>
-              </div>
-            </small>
-            <small>
-              <div>
-                <a class="ml-2" href="{{ url_for('reset') }}"> Forgot password? </a>
+                <a class="ml-2" href="{{ url_for('login') }}"> Sign In </a>
               </div>
             </small>
           </div>

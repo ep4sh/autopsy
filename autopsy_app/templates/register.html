@@ -5,7 +5,7 @@
 {% endblock title %}
 
 
-{% block form %}
+{% block aaa_form %}
         <form class="form-signin" action="" method="POST">
           {{ form.hidden_tag() }}
           <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
@@ -78,7 +78,7 @@
             {{ form.submit(class="btn btn-lg btn-outline-dark btn-block") }}
           </div>
 
-          <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ now.strftime("%Y") }}</p>
           <div class="border-top">
             <small>
              Already have a login?
@@ -88,5 +88,5 @@
             </small>
           </div>
         </form>
-{% endblock form %}
+{% endblock aaa_form %}
 
