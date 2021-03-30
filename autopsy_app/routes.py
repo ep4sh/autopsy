@@ -10,6 +10,7 @@ from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
 from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
                                send_email, generate_password, verify_password)
 
+
 @app.route('/')
 @login_required
 def dashboard():
@@ -17,9 +18,13 @@ def dashboard():
     recent_mortems = Mortem.query.order_by(Mortem.mortem_created.desc()).\
                     limit(3).all()
     # Getting random postmortem
-    max_mortem_id = Mortem.query.order_by(Mortem.id.desc()).limit(1).first().id
-    rnd_mortem_id = choose_random_mortem(max_mortem_id)
-    rnd_mortem = Mortem.query.get(rnd_mortem_id)
+    max_mortem = Mortem.query.order_by(Mortem.id.desc()).limit(1).first()
+    if max_mortem is not None:
+        max_mortem_id = max_mortem.id
+        rnd_mortem_id = choose_random_mortem(max_mortem_id)
+        rnd_mortem = Mortem.query.get(rnd_mortem_id)
+    else:
+        rnd_mortem = None
     return render_template('dashboard.html', mortems=recent_mortems,
                            rnd_mortem=rnd_mortem)
 
@@ -219,4 +224,3 @@ def support():
         flash('The Support Case has been created', 'warning')
         return redirect(url_for('support'))
     return render_template('support.html', form=form)
-
