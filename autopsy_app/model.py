@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     # do not rename id - flask_login may become broken
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(20), unique=True, nullable=False)
+    user_name = db.Column(db.String(20), nullable=False)
     user_email = db.Column(db.String(20), unique=True, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_image = db.Column(db.String(20), default='zombie.png')
