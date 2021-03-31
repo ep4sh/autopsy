@@ -9,7 +9,7 @@ Autopsy spreads postmortems culture, involves people to learn on the failures.
 
 * Users can add, update postmortems
 * You can update only your postmortem
-* User with id == 0 is a service's admininstrator
+* User with id == 1 is a service's admininstrator
 
 ## Screenshots
 
@@ -96,14 +96,14 @@ cp .env.example .env
 pip3 install -r requirements.txt
 ```
 
-#### Run flask
+#### Run app
 ```
-flask run --host=0.0.0.0
+ussgi app.ini
 ```
 
 #### Go to
 ```
-http://host:5000/
+http://localhost:5000/
 ```
 
 
