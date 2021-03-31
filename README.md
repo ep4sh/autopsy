@@ -41,9 +41,9 @@ Autopsy spreads postmortems culture, involves people to learn on the failures.
 ## Features
 
 * Dashboard shows latest and random postmortems
-* Postmortems shows list of postmortems with CRUD
+* Postmortems provides lists postmortems with CRU(D) capabilities
 * Search performs search operation in Postmortems' names
-* Admin page manages all the service's data in Flask-admin way
+* Admin manages all the service's data in Flask-admin way
 * Users can register, login, update the profile, create support tickets (attaching screenshot), logout and restore their password via email.
 
 ## Roadmap
@@ -52,7 +52,7 @@ Autopsy spreads postmortems culture, involves people to learn on the failures.
 ## Requirements
 
 * python3
-* sqlite*
+* PostgreSQL
 * SMTP server (for password reset)
 
 ## Installation
@@ -88,23 +88,52 @@ cp .env.example .env
 |MAIL_USE_SSL| True | depends | SMTP server SSL|
 |MAIL_USERNAME| <noreply@example.com> | Yes | Username for no-reply@ account|
 |MAIL_PASSWORD| <account_password>| Yes | Password for no-reply account|
-|SQLALCHEMY_DATABASE_URI| "sqlite:///autopsy.db"| Yes | Database URI|
-|SQLALCHEMY_TRACK_MODIFICATIONS| True | depends| Track DB modification|
+|DATABASE_HOST| <database_host> | Yes | Database URI|
+|DATABASE_USER| docker | Yes | Database Username|
+|DATABASE_PASSWORD| docker | Yes | Database Password|
+|DATABASE_PORT| 5432 | depends | Database Port|
+|DATABASE_NAME| docker | Yes | Database Name|
+|SQLALCHEMY_DATABASE_URI| "postgresql://...."| Yes | Database URI|
+|SQLALCHEMY_TRACK_MODIFICATIONS| True | No | Track DB modification|
 
 #### Install dependencies
 ```
 pip3 install -r requirements.txt
 ```
 
+#### Apply DB migrations
+```
+flask db migrate
+flas db upgrade
+```
+
 #### Run app
 ```
-ussgi app.ini
+uswgi app.ini
 ```
 
 #### Go to
 ```
 http://localhost:5000/
 ```
+
+
+## PostgreSQL development instance
+It is available to spin-up PostgreSQL database in container via docker-compose.
+```
+cd docker/db
+docker-compose up -d
+```
+
+Database credentials can be found in `docker/db/docker-compose.yml`:
+```
+- APP_DB_USER=docker
+- APP_DB_PASS=docker
+- APP_DB_NAME=docker
+```
+
+:hankey: Be aware from running the production database instance this ways and other monsters!
+
 
 
 ## Icon authors:
