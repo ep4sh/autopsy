@@ -51,6 +51,7 @@ class Mortem(db.Model):
     mortem_impact = db.Column(db.String(20), nullable=False)
     mortem_url = db.Column(db.String(16), nullable=False)
     mortem_content = db.Column(db.Text(), nullable=False)
+    mortem_resolution = db.Column(db.Text())
     mortem_created = db.Column(db.DateTime, nullable=False,
                                default=datetime.utcnow)
     mortem_updated = db.Column(db.DateTime, nullable=False,

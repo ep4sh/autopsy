@@ -176,6 +176,10 @@
   height: 15rem;
 }
 
+.add-mortem-resolution {
+  font-weight: 600;
+}
+
 .mortem-tab {
   background-color: #ebebec;
   border-right: 1px solid #c5c5c5;

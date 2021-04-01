@@ -56,6 +56,7 @@ class PostmortemForm(FlaskForm):
                                      AnyOf(['minor', 'significant',
                                            'critical'], 'Wrong Impact')])
     mortem = TextAreaField('Mortem details', validators=[DataRequired()])
+    resolution = TextAreaField('Mortem resolution')
     submit = SubmitField('Postmortem!')
 
 

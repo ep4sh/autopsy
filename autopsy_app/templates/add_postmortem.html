@@ -85,6 +85,22 @@
             </div>
 
             <div class="form-group py-2 my-2">
+              {{ form.resolution.label(class="form-control-label") }}
+              {% if form.resolution.errors %}
+                {{ form.resolution(class="form-control form-control-md add-mortem-resolution is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.resolution.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.resolution(class="form-control form-control-md add-mortem-resolution") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
               {{ form.submit(class="btn btn-lg btn-outline-dark btn-block") }}
             </div>
         </form>

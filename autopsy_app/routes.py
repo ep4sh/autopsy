@@ -149,11 +149,13 @@ def add_postmortem():
         title = form.title.data
         impact = form.impact.data
         content = form.mortem.data
+        resolution = form.resolution.data
         url = define_mortem_url()
         now = datetime.datetime.utcnow()
         uid = current_user.id
         mortem = Mortem(mortem_name=title, mortem_content=content,
                         mortem_url=url, mortem_created=now,
+                        mortem_resolution = resolution,
                         mortem_impact=impact, mortem_updated=now, user_id=uid)
         db.session.add(mortem)
         db.session.commit()
@@ -181,6 +183,7 @@ def update_postmortem(url):
         mortem.mortem_name = form.title.data
         mortem.mortem_impact = form.impact.data
         mortem.mortem_content = form.mortem.data
+        mortem.mortem_resolution = form.resolution.data
         mortem.mortem_updated = datetime.datetime.utcnow()
         db.session.commit()
         flash('The mortem has been updated', 'success')

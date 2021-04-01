@@ -78,6 +78,11 @@
             </div>
 
             <div class="form-group py-2 my-2">
+              <label class="form-control-label" for="resolution">Mortem resolution</label>
+              <textarea class="form-control form-control-md add-mortem-resolution" id="resolution" name="resolution" readonly>{{ mortem.mortem_resolution }}</textarea>
+            </div>
+
+            <div class="form-group py-2 my-2">
               <a href="{{ url_for('postmortems') }}">
                 <input class="btn btn-sm btn-outline-dark btn-block" id="back" name="back" type="button" value="Back">
               </a>
