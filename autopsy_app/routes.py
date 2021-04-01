@@ -155,7 +155,7 @@ def add_postmortem():
         uid = current_user.id
         mortem = Mortem(mortem_name=title, mortem_content=content,
                         mortem_url=url, mortem_created=now,
-                        mortem_resolution = resolution,
+                        mortem_resolution=resolution,
                         mortem_impact=impact, mortem_updated=now, user_id=uid)
         db.session.add(mortem)
         db.session.commit()
@@ -234,9 +234,9 @@ def support():
 
 @app.errorhandler(404)
 def page_not_found(e):
-        return render_template('404.html'), 404
+    return render_template('404.html'), 404
 
 
 @app.errorhandler(403)
-def page_not_found(e):
-        return render_template('403.html'), 403
+def page_forbidden(e):
+    return render_template('403.html'), 403
