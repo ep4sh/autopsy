@@ -38,6 +38,9 @@
               </h3>
               <div class="mb-1 text-muted">{{ rnd_mortem.mortem_created.strftime("%d %B %Y") }}</div>
               <p class="small"> Author: {{ rnd_mortem.author.user_name }} aka {{ rnd_mortem.author.user_email }}</p>
+            {% else %}
+              <div class="spinner-border text-success" role="status">
+              </div>
             {% endif %}
 		  </div>
 		</div>
