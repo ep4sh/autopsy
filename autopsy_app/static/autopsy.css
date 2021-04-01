@@ -227,3 +227,18 @@
   text-decoration: none;
   color: #8a2be2;
 }
+
+.impact-minor {
+  font-weight: 900;
+  color: Green;
+}
+
+.impact-significant {
+  font-weight: 900;
+  color: DarkOrange;
+}
+
+.impact-critical {
+  font-weight: 900;
+  color: Tomato;
+}

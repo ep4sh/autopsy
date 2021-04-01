@@ -1,7 +1,7 @@
 {% extends "base/middle_layer.html" %}
 
 {% block title %}
-  <title>Autopsy: Add Postmortem</title>
+  <title>Autopsy: Get Postmortem</title>
 {% endblock title %}
 
 {% block content_top %}
@@ -49,6 +49,11 @@
             <div class="input-group py-2 my-2">
               <label class="input-group-text" for="title">Title</label>
               <input class="form-control form-control-md" id="title" name="title" type="text" readonly value="{{ mortem.mortem_name }}">
+            </div>
+
+            <div class="input-group py-2 my-2">
+              <label class="input-group-text" for="impact">Impact</label>
+              <input class="form-control form-control-md impact-{{ mortem.mortem_impact }}" id="impact" name="impact" type="text" readonly value="{{ mortem.mortem_impact }}">
             </div>
 
             <div class="input-group py-2 my-2">

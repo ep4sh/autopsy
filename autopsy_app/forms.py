@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms import TextAreaField, HiddenField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms import (StringField, PasswordField, SubmitField, BooleanField,
+                     TextAreaField, HiddenField, SelectField)
+from wtforms.validators import DataRequired, Length, Email, EqualTo, AnyOf
 from wtforms.validators import ValidationError
 from autopsy_app.model import User
 
@@ -50,6 +50,11 @@ class ProfileForm(FlaskForm):
 
 class PostmortemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=100)])
+    impact = SelectField('Impact',
+                         choices=(['minor', 'significant', 'critical']),
+                         validators=[DataRequired(),
+                                     AnyOf(['minor', 'significant',
+                                           'critical'], 'Wrong Impact')])
     mortem = TextAreaField('Mortem details', validators=[DataRequired()])
     submit = SubmitField('Postmortem!')
 

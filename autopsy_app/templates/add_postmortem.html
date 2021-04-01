@@ -53,6 +53,22 @@
             </div>
 
             <div class="form-group py-2 my-2">
+              {{ form.impact.label(class="form-control-label") }}
+              {% if form.impact.errors %}
+                {{ form.impact(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for err in form.impact.errors %}
+                    <span>
+                      {{ err }}
+                    </span>
+                  {% endfor%}
+                </div>
+              {% else %}
+                {{ form.impact(class="form-control form-control-md") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group py-2 my-2">
               {{ form.mortem.label(class="form-control-label") }}
               {% if form.mortem.errors %}
                 {{ form.mortem(class="form-control form-control-md add-mortem-content is-invalid") }}

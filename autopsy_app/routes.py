@@ -147,13 +147,14 @@ def add_postmortem():
     form = PostmortemForm()
     if form.validate_on_submit():
         title = form.title.data
+        impact = form.impact.data
         content = form.mortem.data
         url = define_mortem_url()
         now = datetime.datetime.utcnow()
         uid = current_user.id
         mortem = Mortem(mortem_name=title, mortem_content=content,
                         mortem_url=url, mortem_created=now,
-                        mortem_updated=now, user_id=uid)
+                        mortem_impact=impact, mortem_updated=now, user_id=uid)
         db.session.add(mortem)
         db.session.commit()
         flash('The mortem has been added', 'success')
@@ -178,6 +179,7 @@ def update_postmortem(url):
     # passing value of Mortem content to the textarea
     if form.validate_on_submit():
         mortem.mortem_name = form.title.data
+        mortem.mortem_impact = form.impact.data
         mortem.mortem_content = form.mortem.data
         mortem.mortem_updated = datetime.datetime.utcnow()
         db.session.commit()
@@ -185,6 +187,7 @@ def update_postmortem(url):
         return redirect(url_for('get_postmortem', url=url))
     elif request.method == "GET":
         form.title.data = mortem.mortem_name
+        form.impact.data = mortem.mortem_impact
         form.mortem.data = mortem.mortem_content
     return render_template('update_postmortem.html', mortem=mortem, form=form)
 
