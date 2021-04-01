@@ -1,0 +1,18 @@
+{% extends "base/base_error.html" %}
+
+{% block title %}
+  <title>Autopsy: Page Not Found</title>
+{% endblock title %}
+
+
+
+{% block error %}
+<div class="m-5">
+  <a href="{{ url_for('dashboard') }}">
+     <img  src="{{ url_for('static', filename='autopsy-404.png') }}">
+  </a>
+  <h1 class="my-3"> Deeeeeeeeply apologize, but the page was not found...</h1>
+<div>
+{% endblock error %}
+
+

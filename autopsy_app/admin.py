@@ -1,5 +1,5 @@
 import flask_admin as admin
-from flask import redirect, url_for
+from flask import redirect, url_for, abort
 from flask_admin import helpers, expose, Admin
 from flask_admin.contrib import sqla
 from flask_login import current_user
@@ -15,7 +15,7 @@ class AutopsyModelView(sqla.ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
-        return redirect(url_for('dashboard'))
+        return abort(403)
 
 
 # Create customized index view class that handles login & registration
@@ -24,7 +24,7 @@ class AutopsyAdminIndexView(admin.AdminIndexView):
     @expose('/')
     def index(self):
         if current_user.is_anonymous or current_user.id != 1:
-            return redirect(url_for('dashboard'))
+            return abort(403)
         return super(AutopsyAdminIndexView, self).index()
 
 

@@ -230,3 +230,13 @@ def support():
         flash('The Support Case has been created', 'warning')
         return redirect(url_for('support'))
     return render_template('support.html', form=form)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+        return render_template('404.html'), 404
+
+
+@app.errorhandler(403)
+def page_not_found(e):
+        return render_template('403.html'), 403

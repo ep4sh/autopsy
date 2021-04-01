@@ -1,0 +1,18 @@
+{% extends "base/base_error.html" %}
+
+{% block title %}
+  <title>Autopsy: You can[not] pass</title>
+{% endblock title %}
+
+
+
+{% block error %}
+<div class="m-5">
+  <a href="{{ url_for('dashboard') }}">
+     <img  src="{{ url_for('static', filename='autopsy-403.png') }}">
+  </a>
+  <h1 class="my-3"> A-a-a! <br />You can not pass, only The Chosen One can..</h1>
+<div>
+{% endblock error %}
+
+
