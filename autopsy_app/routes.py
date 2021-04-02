@@ -137,7 +137,9 @@ def profile():
 @app.route('/postmortems')
 @login_required
 def postmortems():
-    mortems = Mortem.query.all()
+    MORTEMS_PER_PAGE = 7
+    page = request.args.get('page', type=int, default=1)
+    mortems = Mortem.query.order_by(Mortem.id.desc()).paginate(page=page, per_page=MORTEMS_PER_PAGE)
     return render_template('postmortems.html', mortems=mortems)
 
 
