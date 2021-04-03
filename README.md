@@ -136,6 +136,7 @@ Database credentials can be found in `docker_misc/db/docker-compose.yml`:
 
 ## Creating a Docker container
 
+:hugs: The image can be built without buildkit
 
 ### Create a builder
 ```
