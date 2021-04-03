@@ -27,7 +27,7 @@ jobs:
       - name: Run a one-line script
         run: echo Good mortem!
 
-	  - name: Find Tag
+	  - name: Find Verion
 		id: tagger
 		uses: jimschubert/query-tag-action@v1
 		with:
