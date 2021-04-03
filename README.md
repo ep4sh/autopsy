@@ -134,51 +134,34 @@ Database credentials can be found in `docker_misc/db/docker-compose.yml`:
 :hankey: Be aware from running the production database instance this way and from other monsters!
 
 
-## Building a Docker image
+## Creating a Docker container
 
 
-## Create a builder
+### Create a builder
 ```
 docker buildx create --name mbuilder --platform linux/arm64,linux/arm/v8,linux/armv7,linux/amd64  --use
 ```
 
-## Exporting ENV vars
+### Exporting ENV vars
 
 ```
 export $(cat .env)
 ```
 
-## x64 - Build docker image
+### x64 - Build docker image
 ```
 APP_VERSION=$(git describe)
 docker buildx build --platform=linux/amd64 -t ep4sh/autopsy:$APP_VERSION \
   --build-arg FLASK_APP=$FLASK_APP \
   --build-arg FLASK_ENV=$FLASK_ENV \
-  --build-arg DATABASE_HOST=$DATABASE_HOST \
-  --build-arg DATABASE_USER=$DATABASE_USER \
-  --build-arg DATABASE_PASSWORD=$DATABASE_PASSWORD \
-  --build-arg DATABASE_PORT=$DATABASE_PORT \
-  --build-arg DATABASE_NAME=$DATABASE_NAME \
   --push .
 ```
 
-## x64 - Run docker container
+### x64 - Run docker container
 ```
 docker run -d -v $PWD/.env:/app/.env -v $PWD/app.ini:/app/app.ini \
-  -p5000:5000 -ti ep4sh/autopsy:0.1.6
+  -p5000:5000 ep4sh/autopsy:$APP_VERSION
 ```
-
-
-## arm64 - Build docker image
-```
-will be soon ;)
-```
-
-## arm64 - Run docker container
-```
-will be soon ;)
-```
-
 
 
 ## Icon authors:

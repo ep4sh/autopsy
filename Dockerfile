@@ -5,24 +5,11 @@ COPY requirements.txt /app
 RUN pip install -r requirements.txt --no-cache-dir
 COPY . /app
 EXPOSE 5000
-USER flask
 
 ARG FLASK_APP
 ARG FLASK_ENV
-ARG DATABASE_HOST
-ARG DATABASE_USER
-ARG DATABASE_PASSWORD
-ARG DATABASE_PORT
-ARG DATABASE_NAME
-
 ENV FLASK_APP=${FLASK_APP}
 ENV FLASK_ENV=${FLASK_ENV}
-ENV DATABASE_HOST=${DATABASE_HOST}
-ENV DATABASE_USER=${DATABASE_USER}
-ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
-ENV DATABASE_PORT=${DATABASE_PORT}
-ENV DATABASE_NAME=${DATABASE_NAME}
-
-RUN flask db migrate && flask db upgrade
-CMD ["uwsgi","app.ini"]
-
+RUN chown -R flask /app && chmod u+x ./entrypoint.sh
+USER flask
+ENTRYPOINT ["./entrypoint.sh"]
