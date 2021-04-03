@@ -17,7 +17,13 @@ app.mail_use_ssl = os.getenv("MAIL_USE_SSL")
 app.mail_username = os.getenv("MAIL_USERNAME")
 app.mail_password = os.getenv("MAIL_PASSWORD")
 # database settings
-app.db_uri = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.db_host = os.getenv("DATABASE_HOST")
+app.db_user = os.getenv("DATABASE_USER")
+app.db_password = os.getenv("DATABASE_PASSWORD")
+app.db_port = os.getenv("DATABASE_PORT")
+app.db_name = os.getenv("DATABASE_NAME")
+app.db_uri = (f"postgresql://{app.db_user}:{app.db_password}@"
+              f"{app.db_host}:{app.db_port}/{app.db_name}")
 app.db_track_modifications = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS")
 
 # Flask config

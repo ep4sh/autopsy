@@ -93,7 +93,6 @@ cp .env.example .env
 |DATABASE_PASSWORD| docker | Yes | Database Password|
 |DATABASE_PORT| 5432 | depends | Database Port|
 |DATABASE_NAME| docker | Yes | Database Name|
-|SQLALCHEMY_DATABASE_URI| "postgresql://...."| Yes | Database URI|
 |SQLALCHEMY_TRACK_MODIFICATIONS| True | No | Track DB modification|
 
 #### Install dependencies
@@ -121,11 +120,11 @@ http://localhost:5000/
 ## PostgreSQL development instance
 It is available to spin-up PostgreSQL database in container via docker-compose.
 ```
-cd docker/db
+cd docker_misc/db
 docker-compose up -d
 ```
 
-Database credentials can be found in `docker/db/docker-compose.yml`:
+Database credentials can be found in `docker_misc/db/docker-compose.yml`:
 ```
 - APP_DB_USER=docker
 - APP_DB_PASS=docker
@@ -135,9 +134,57 @@ Database credentials can be found in `docker/db/docker-compose.yml`:
 :hankey: Be aware from running the production database instance this way and from other monsters!
 
 
+## Building a Docker image
+
+
+## Create a builder
+```
+docker buildx create --name mbuilder --platform linux/arm64,linux/arm/v8,linux/armv7,linux/amd64  --use
+```
+
+## Exporting ENV vars
+
+```
+export $(cat .env)
+```
+
+## x64 - Build docker image
+```
+APP_VERSION=$(git describe)
+docker buildx build --platform=linux/amd64 -t ep4sh/autopsy:$APP_VERSION \
+  --build-arg FLASK_APP=$FLASK_APP \
+  --build-arg FLASK_ENV=$FLASK_ENV \
+  --build-arg DATABASE_HOST=$DATABASE_HOST \
+  --build-arg DATABASE_USER=$DATABASE_USER \
+  --build-arg DATABASE_PASSWORD=$DATABASE_PASSWORD \
+  --build-arg DATABASE_PORT=$DATABASE_PORT \
+  --build-arg DATABASE_NAME=$DATABASE_NAME \
+  --push .
+```
+
+## x64 - Run docker container
+```
+docker run -d -v $PWD/.env:/app/.env -v $PWD/app.ini:/app/app.ini \
+  -p5000:5000 -ti ep4sh/autopsy:0.1.6
+```
+
+
+## arm64 - Build docker image
+```
+will be soon ;)
+```
+
+## arm64 - Run docker container
+```
+will be soon ;)
+```
+
+
 
 ## Icon authors:
 [DinosoftLabs](https://www.flaticon.com/authors/dinosoftlabs)
+
+
 [FreePik](https://www.freepik.com/)
 
 ## Books

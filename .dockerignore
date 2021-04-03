@@ -1,0 +1,8 @@
+.git
+__pycache__
+docker_misc
+venv*
+.env
+.env.example
+README*
+
