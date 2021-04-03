@@ -1,6 +1,9 @@
 #  Autopsy: web app for postmortems
 
-![autopsy](https://user-images.githubusercontent.com/19505042/113065705-f7f9f000-91c1-11eb-92be-1821648954b0.jpg) Autopsy is free, Flask-based Postmortem web app.
+![Autopsy](https://github.com/ep4sh/autopsy/actions/workflows/main.yml/badge.svg)  
+
+
+![Autopsy](https://user-images.githubusercontent.com/19505042/113065705-f7f9f000-91c1-11eb-92be-1821648954b0.jpg) Autopsy is free, Flask-based Postmortem web app.
 
 
 Autopsy spreads postmortems culture, involves people to learn on the failures.
