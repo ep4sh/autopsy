@@ -1,6 +1,6 @@
 #  Autopsy: web app for postmortems
 
-![Autopsy](https://github.com/ep4sh/autopsy/actions/workflows/main.yml/badge.svg)  
+![Autopsy](https://github.com/ep4sh/autopsy/actions/workflows/main.yml/badge.svg)
 
 
 ![Autopsy](https://user-images.githubusercontent.com/19505042/113065705-f7f9f000-91c1-11eb-92be-1821648954b0.jpg) Autopsy is free, Flask-based Postmortem web app.
@@ -121,7 +121,7 @@ http://localhost:5000/
 
 
 ## PostgreSQL development instance
-It is available to spin-up PostgreSQL database in container via docker-compose.
+There is a way to spin-up development PostgreSQL database in container via docker-compose.
 ```
 cd docker_misc/db
 docker-compose up -d
@@ -139,9 +139,8 @@ Database credentials can be found in `docker_misc/db/docker-compose.yml`:
 
 ## Creating a Docker container
 
-:hugs: The image can be built without buildkit
 
-### Create a builder
+### Create a builder (:hugs: The image can be built without buildkit)
 ```
 docker buildx create --name mbuilder --platform linux/arm64,linux/arm/v8,linux/armv7,linux/amd64  --use
 ```
