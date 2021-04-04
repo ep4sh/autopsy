@@ -75,6 +75,9 @@
 
               <div class="form-group py-2 my-2">
                 {{ form.mortem.label(class="form-control-label") }}
+                <div class="my-1">
+                  <button type="button" onclick="timeStamp()" class="btn btn-outline-secondary btn-sm">TIMESTAMP!</button>
+                </div>
                 {% if form.mortem.errors %}
                   {{ form.mortem(class="form-control form-control-md add-mortem-content is-invalid") }}
                   <div class="invalid-feedback">
