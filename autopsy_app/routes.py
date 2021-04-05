@@ -203,24 +203,24 @@ def update_postmortem(url):
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    # TODO: Check SQL injection
-    MORTEMS_PER_PAGE = 3
-    if request.method == 'POST':
+    def _get_results(q):
+        MORTEMS_PER_PAGE = 3
         page = request.args.get('page', type=int, default=1)
-        query = request.form['search_query']
         mortems = Mortem.query.filter(
-                  Mortem.mortem_name.like(f"%{query}%")).paginate(
+                  Mortem.mortem_name.like(f"%{q}%")).paginate(
                   page=page, per_page=MORTEMS_PER_PAGE, error_out=False)
+        return page, mortems
+    # TODO: Check SQL injection
+    if request.method == 'POST':
+        query = request.form['search_query']
+        page, mortems = _get_results(query)
         if page != 1:
             return redirect(url_for('search', query=query, page=1))
     elif request.method == 'GET':
-        page = request.args.get('page', type=int, default=1)
         query = request.args.get('query', type=str, default=None)
         if query is not None:
             query = query.strip("'")
-            mortems = Mortem.query.filter(
-                    Mortem.mortem_name.like(f"%{query}%")).paginate(
-                    page=page, per_page=MORTEMS_PER_PAGE, error_out=False)
+            page, mortems = _get_results(query)
         else:
             mortems = None
     return render_template('search.html', mortems=mortems, query=query)
