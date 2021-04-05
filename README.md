@@ -27,13 +27,11 @@ Autopsy spreads postmortems culture, involves people to learn on the failures.
 #### Postmortems
 ![list_postmortems](https://user-images.githubusercontent.com/19505042/113065713-f9c3b380-91c1-11eb-9e30-dc7117d90edb.gif)
 #### View a postmortem
-![current_postmortem](https://user-images.githubusercontent.com/19505042/113065706-f8928680-91c1-11eb-8735-1fb9a1a89c24.gif)
+![view](https://user-images.githubusercontent.com/19505042/113610147-67099580-9655-11eb-85d7-417fdd3893d2.png)
 #### New postmortem
-![new_postmortem](https://user-images.githubusercontent.com/19505042/113065720-fa5c4a00-91c1-11eb-8fe0-d7eaab7b93ee.gif)
-#### Update postmortem
-![update_postmortem](https://user-images.githubusercontent.com/19505042/113065729-fb8d7700-91c1-11eb-8c55-d4238c5dfa80.gif)
+![new](https://user-images.githubusercontent.com/19505042/113610701-23fbf200-9656-11eb-88b3-429d3d960869.png)
 #### Search in postmortems
-![search](https://user-images.githubusercontent.com/19505042/113065726-faf4e080-91c1-11eb-8a3c-f246aa974bf2.gif)
+[![search](https://user-images.githubusercontent.com/19505042/113610144-6670ff00-9655-11eb-9e69-7f0eceb2b5d6.png)
 #### Update profile
 ![profile](https://user-images.githubusercontent.com/19505042/113065721-fa5c4a00-91c1-11eb-82e2-741e2914845e.gif)
 #### Admin page
