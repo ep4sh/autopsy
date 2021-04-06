@@ -1,0 +1,66 @@
+# Default values for autopsy.
+
+fullname: autopsy
+
+replicaCount: 1
+
+image:
+  repository: ep4sh/autopsy
+  pullPolicy: IfNotPresent
+  tag: "0.1.7-2-gc9f301f"
+
+autopsySecrets: autopsy-flask-dotenv
+
+containerPort: 5000
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 32002
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: app.ep4sh.cc
+      paths: []
+  tls: []
+
+resources:
+  requests:
+    cpu: 300m
+    memory: 256Mi
+  limits:
+    cpu: 700m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

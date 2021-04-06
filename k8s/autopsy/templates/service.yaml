@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "autopsy.fullname" . }}
+  labels:
+    {{- include "autopsy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      nodePort: {{ .Values.service.nodePort }}
+      protocol: TCP
+  selector:
+    {{- include "autopsy.selectorLabels" . | nindent 4 }}
