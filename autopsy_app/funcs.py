@@ -1,4 +1,4 @@
-import sys
+import re
 import string
 import random
 from flask import url_for
@@ -15,10 +15,6 @@ def define_mortem_url():
 
 def choose_random_mortem(max_id):
     return random.randrange(1, max_id+1) if max_id else None
-
-
-def send_email(rec, message):
-    print(f'{rec} : {message}', file=sys.stderr)
 
 
 def generate_password(data):
@@ -42,3 +38,12 @@ def send_email(email, token):
     If you didn't request this request - be beware of the Great Evil!
     """
     mail.send(msg)
+
+
+def auto_tag(content):
+    tag_pattern = re.compile(r"\b([A-Z]\S+)\b")
+    m = tag_pattern.findall(content)
+    return [tag.lower() for tag in m]
+
+def get_tags(tags_data):
+    return tags_data.strip("{}").split(",")

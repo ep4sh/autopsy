@@ -81,6 +81,16 @@
               <label class="form-control-label" for="resolution">Mortem resolution</label>
               <textarea class="form-control form-control-md add-mortem-resolution" id="resolution" name="resolution" readonly>{{ mortem.mortem_resolution }}</textarea>
             </div>
+            {% if mortem.mortem_tags %}
+              <div class="form-group py-2 my-2">
+                <label class="form-control-label">Mortem tags:</label>
+                <div class="mortem-tag">
+                  {% for tag in mortem.mortem_tags %}
+                    <span>#{{ tag }} </span>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
 
             <div class="form-group py-2 my-2">
               <a href="{{ url_for('postmortems') }}">

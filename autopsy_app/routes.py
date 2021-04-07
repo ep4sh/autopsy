@@ -8,7 +8,8 @@ from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
                                PostmortemForm, SupportForm, RequestResetForm,
                                ResetForm)
 from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
-                               send_email, generate_password, verify_password)
+                               auto_tag, send_email, generate_password,
+                               verify_password, get_tags)
 
 
 @app.route('/')
@@ -158,9 +159,10 @@ def add_postmortem():
         url = define_mortem_url()
         now = datetime.datetime.utcnow()
         uid = current_user.id
+        tags = auto_tag(form.mortem.data)
         mortem = Mortem(mortem_name=title, mortem_content=content,
                         mortem_url=url, mortem_created=now,
-                        mortem_resolution=resolution,
+                        mortem_resolution=resolution, mortem_tags=tags,
                         mortem_impact=impact, mortem_updated=now, user_id=uid)
         db.session.add(mortem)
         db.session.commit()
@@ -173,6 +175,7 @@ def add_postmortem():
 @login_required
 def get_postmortem(url):
     mortem = Mortem.query.filter_by(mortem_url=url).first()
+    mortem.mortem_tags = get_tags(mortem.mortem_tags)
     return render_template('get_postmortem.html', mortem=mortem)
 
 
@@ -190,6 +193,7 @@ def update_postmortem(url):
         mortem.mortem_content = form.mortem.data
         mortem.mortem_resolution = form.resolution.data
         mortem.mortem_updated = datetime.datetime.utcnow()
+        mortem.mortem_tags = auto_tag(form.mortem.data)
         db.session.commit()
         flash('The mortem has been updated', 'success')
         return redirect(url_for('get_postmortem', url=url))

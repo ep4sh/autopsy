@@ -246,3 +246,8 @@
   font-weight: 900;
   color: Tomato;
 }
+
+.mortem-tag span:hover {
+  font-weight: 900;
+  color: DodgerBlue;
+}
