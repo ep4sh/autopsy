@@ -103,17 +103,12 @@ pip3 install -r requirements.txt
 
 #### Init database
 
-##### Run python commands
+##### Run flask shell commands
 
-
-It  will create database schema and load init resources like roles, default user:
-`admin@example.com` with password `admin`
+It  will create database schema and load init resources like roles
 
 ```
-python3
-
->>> from autopsy_app.model import db
->>> db.create_all()
+flask shell <<< "from autopsy_app.model import db; db.create_all();"
 ```
 
 
@@ -122,6 +117,7 @@ OR
 
 #### Apply DB migrations
 ```
+flask db stamp head
 flask db migrate
 flas db upgrade
 ```
