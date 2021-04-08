@@ -4,7 +4,7 @@ from flask_admin import helpers, expose, Admin
 from flask_admin.contrib import sqla
 from flask_login import current_user
 from autopsy_app import app
-from autopsy_app.model import db, User, Mortem, Support
+from autopsy_app.model import db, User, Mortem, Support, Role
 
 
 # Create customized model view class
@@ -35,3 +35,4 @@ adm = Admin(app, index_view=AutopsyAdminIndexView())
 adm.add_view(AutopsyModelView(User, db.session))
 adm.add_view(AutopsyModelView(Mortem, db.session))
 adm.add_view(AutopsyModelView(Support, db.session))
+adm.add_view(AutopsyModelView(Role, db.session))

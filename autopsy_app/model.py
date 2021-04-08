@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, event
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from autopsy_app import app, login_manager
@@ -16,7 +16,6 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    # do not rename id - flask_login may become broken
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(20), nullable=False)
     user_email = db.Column(db.String(20), unique=True, nullable=False)
@@ -25,10 +24,11 @@ class User(db.Model, UserMixin):
     mortem = db.relationship('Mortem', backref='author', lazy=True)
     support_case = db.relationship('Support',
                                    backref='support_case_author', lazy=True)
+    roles = db.relationship('Role', secondary='user_roles')
 
     def __repr__(self):
         return f"User('{self.user_email}', '{self.user_name}', \
-                '{self.user_image}')"
+                '{self.user_image}', '{self.roles}')"
 
     def generate_token(self, exprire_seconds=300):
         s = Serializer(app.config['SECRET_KEY'], exprire_seconds)
@@ -42,6 +42,27 @@ class User(db.Model, UserMixin):
         except Exception:
             return None
         return User.query.get(user_id)
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(10), unique=True)
+
+    def __repr__(self):
+        return f"Role('{self.name}')"
+
+
+class UserRoles(db.Model):
+    __tablename__ = 'user_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id',
+                                                    ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id',
+                                                    ondelete='CASCADE'))
+
+    def __repr__(self):
+        return f"UserRoles('{self.user_id}', '{self.role_id}')"
 
 
 class Mortem(db.Model):
@@ -79,3 +100,9 @@ class Support(db.Model):
     def __repr__(self):
         return f"Support('{self.support_subject}', '{self.user_id}', \
                      '{self.support_created}', '{self.support_attach}')"
+
+@event.listens_for(Role.__table__, 'after_create')
+def create_role(*args, **kwargs):
+    db.session.add(Role(name='admin'))
+    db.session.add(Role(name='user'))
+    db.session.commit()

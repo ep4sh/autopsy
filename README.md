@@ -101,6 +101,25 @@ cp .env.example .env
 pip3 install -r requirements.txt
 ```
 
+#### Init database
+
+##### Run python commands
+
+
+It  will create database schema and load init resources like roles, default user:
+`admin@example.com` with password `admin`
+
+```
+python3
+
+>>> from autopsy_app.model import db
+>>> db.create_all()
+```
+
+
+OR
+
+
 #### Apply DB migrations
 ```
 flask db migrate

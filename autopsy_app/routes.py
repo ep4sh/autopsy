@@ -3,7 +3,7 @@ from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app
 from autopsy_app.admin import adm
-from autopsy_app.model import db, User, Mortem, Support
+from autopsy_app.model import db, User, Role, UserRoles, Mortem, Support
 from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
                                PostmortemForm, SupportForm, RequestResetForm,
                                ResetForm)
@@ -100,9 +100,14 @@ def register():
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        # check if root user exists and assign a role
+        role = "user" if User.query.first() else "admin"
         hashed_pw = generate_password(form.password.data)
-        user = User(user_email=form.email.data, user_password=hashed_pw,
+        user = User(user_email=form.email.data,
+                    user_password=hashed_pw,
                     user_name=form.name.data)
+        roles = Role.query.filter_by(name=role).first()
+        user.roles = [roles]
         db.session.add(user)
         db.session.commit()
         flash(f"An account {form.email.data} has been created", 'success')
