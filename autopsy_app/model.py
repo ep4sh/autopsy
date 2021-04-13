@@ -23,7 +23,8 @@ class User(db.Model, UserMixin):
     user_image = db.Column(db.String(20), default='zombie.png')
     mortem = db.relationship('Mortem', backref='author', lazy=True)
     support_case = db.relationship('Support',
-                                   backref='support_case_author', lazy=True)
+                                   backref='support_case_author',
+                                   lazy=True)
     roles = db.relationship('Role', secondary='user_roles')
 
     def __repr__(self):

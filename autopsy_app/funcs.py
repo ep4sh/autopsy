@@ -2,9 +2,8 @@ import re
 import string
 import random
 from flask import url_for
-from flask_mail import Message
-from autopsy_app import app, flask_bcrypt, mail
-from autopsy_app.model import Mortem
+from autopsy_app import app, flask_bcrypt
+from autopsy_app.model import Mortem, User
 
 
 def define_mortem_url():
@@ -23,21 +22,6 @@ def generate_password(data):
 
 def verify_password(true_pass, data):
     return True if flask_bcrypt.check_password_hash(true_pass, data) else False
-
-
-def send_email(email, token):
-    msg = Message('Password Reset for Autopsy')
-    msg.sender = app.config['MAIL_USERNAME']
-    msg.recipients=[email]
-    msg.body = f"""
-    Good mortem! How is it going?
-
-    To reset your password, please click on the following link:
-    {url_for('reset_password', token=token, _external=True)}
-
-    If you didn't request this request - be beware of the Great Evil!
-    """
-    mail.send(msg)
 
 
 def auto_tag(content):

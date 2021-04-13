@@ -7,8 +7,9 @@ from autopsy_app.model import db, User, Role, UserRoles, Mortem, Support
 from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
                                PostmortemForm, SupportForm, RequestResetForm,
                                ResetForm)
+from autopsy_app.mail import send_email, send_admin_email
 from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
-                               auto_tag, send_email, generate_password,
+                               auto_tag, generate_password,
                                verify_password, get_tags)
 
 
@@ -251,8 +252,10 @@ def support():
         uid = current_user.id
         support_case = Support(support_subject=subject,
                                support_content=content,
-                               support_created=now, support_attach=attach_data,
+                               support_created=now,
+                               support_attach=attach_data,
                                user_id=uid)
+        send_admin_email(db, support_case)
         db.session.add(support_case)
         db.session.commit()
         flash('The Support Case has been created', 'warning')
