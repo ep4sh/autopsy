@@ -1,9 +1,10 @@
 import re
 import string
 import random
-from flask import url_for
-from autopsy_app import app, flask_bcrypt
-from autopsy_app.model import Mortem, User
+from io import BytesIO
+from PIL import Image
+from autopsy_app import flask_bcrypt
+from autopsy_app.model import Mortem
 
 
 def define_mortem_url():
@@ -29,5 +30,14 @@ def auto_tag(content):
     m = tag_pattern.findall(content)
     return [tag.lower() for tag in m]
 
+
 def get_tags(tags_data):
     return tags_data.strip("{}").split(",")
+
+
+def resize_screenshot(scr):
+    img_byte_arr = BytesIO()
+    img = Image.open(scr)
+    img.resize((800, 600))
+    img.save(img_byte_arr, format='PNG')
+    return img_byte_arr.getvalue()

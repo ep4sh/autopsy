@@ -10,7 +10,7 @@ from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
 from autopsy_app.mail import send_email, send_admin_email
 from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
                                auto_tag, generate_password,
-                               verify_password, get_tags)
+                               verify_password, get_tags, resize_screenshot)
 
 
 @app.route('/')
@@ -245,7 +245,7 @@ def support():
         content = form.content.data
         attach = form.attach.data
         if attach:
-            attach_data = attach.read()
+            attach_data = resize_screenshot(attach.stream)
         else:
             attach_data = b''
         now = datetime.datetime.utcnow()
@@ -255,7 +255,7 @@ def support():
                                support_created=now,
                                support_attach=attach_data,
                                user_id=uid)
-        send_admin_email(db, support_case)
+        # send_admin_email(db, support_case)
         db.session.add(support_case)
         db.session.commit()
         flash('The Support Case has been created', 'warning')
