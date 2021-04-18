@@ -1,5 +1,12 @@
+"""
+Create Admin page for Autopsy Web App
+
+Classes:
+   - AutopsyModelView(sqla.ModelView):
+   - AutopsyAdminIndexView(admin.AdminIndexView):
+"""
 import flask_admin as admin
-from flask import redirect, url_for, abort
+from flask import abort
 from flask_admin import helpers, expose, Admin
 from flask_admin.contrib import sqla
 from flask_login import current_user
@@ -9,17 +16,30 @@ from autopsy_app.model import db, User, Mortem, Support, Role
 
 # Create customized model view class
 class AutopsyModelView(sqla.ModelView):
+    """
+    Represents AutopsyModelView - admin model
+
+    Methods:
+        is_accessible -> bool
+        inaccessible_callback -> redirect
+    """
 
     def is_accessible(self):
-        return current_user.id == 1 and current_user.is_authenticated
+        return bool(current_user.id == 1 and current_user.is_authenticated)
 
     def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
+        # abort to access login page if user doesn't have access
         return abort(403)
 
 
 # Create customized index view class that handles login & registration
 class AutopsyAdminIndexView(admin.AdminIndexView):
+    """
+    Represents AutopsyAdminIndexView - admin panel index view
+
+    Methods:
+        def index -> redirect / render
+    """
 
     @expose('/')
     def index(self):

@@ -1,9 +1,29 @@
+"""
+Add Flask routes for Autopsy Web App
+
+Methods:
+    def dashboard() -> render_template
+    def reset() -> render_template / redirect
+    def reset_password(token) -> render_template / redirect
+    def login() -> render_template / redirect
+    def register()   -> render_template / redirect
+    def logout() -> redirect
+    def profile() -> render_template
+    def postmortems() -> render_template
+    def add_postmortem() -> render_template / redirect
+    def get_postmortem(url) -> render_template
+    def update_postmortem(url) -> render_template / redirect
+    def search() -> render_template / redirect
+    def support() -> render_template / redirect
+    def page_not_found(e) -> render_template
+    def page_forbidden(e) -> render_template
+"""
 import datetime
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app
 from autopsy_app.admin import adm
-from autopsy_app.model import db, User, Role, UserRoles, Mortem, Support
+from autopsy_app.model import db, User, Role, Mortem, Support
 from autopsy_app.forms import (RegistrationForm, LoginForm, ProfileForm,
                                PostmortemForm, SupportForm, RequestResetForm,
                                ResetForm)
@@ -16,6 +36,9 @@ from autopsy_app.funcs import (define_mortem_url, choose_random_mortem,
 @app.route('/')
 @login_required
 def dashboard():
+    """
+    Show a Autopsy dashboard with Recently added and Random Postmortems
+    """
     # Getting recent postmortems
     recent_mortems = Mortem.query.order_by(Mortem.mortem_created.desc()).\
                     limit(3).all()
@@ -33,6 +56,9 @@ def dashboard():
 
 @app.route('/reset', methods=['GET', 'POST'])
 def reset():
+    """
+    Show a RequestResetForm to reset user's password via email
+    """
     if current_user.is_authenticated:
         return redirect("/")
     form = RequestResetForm()
@@ -44,16 +70,18 @@ def reset():
                 send_email(user.user_email, token)
                 flash('Reset URL has been sent to your email',
                       'info')
-                return redirect(url_for('login'))
             else:
                 flash('Reset failed - check the login', 'danger')
-                return redirect(url_for('login'))
+            return redirect(url_for('login'))
     now = datetime.datetime.utcnow()
     return render_template('reset.html', form=form, now=now)
 
 
 @app.route('/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
+    """
+    Check reset token and show ResetForm to reset a password
+    """
     if current_user.is_authenticated:
         return redirect("/")
     user = User.verify_token(token)
@@ -74,6 +102,9 @@ def reset_password(token):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Authenticate the user
+    """
     if current_user.is_authenticated:
         return redirect("/")
     form = LoginForm()
@@ -84,19 +115,20 @@ def login():
                                         form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
-                return redirect(url_for('dashboard'))
                 if next_page:
                     return redirect(next_page)
                 else:
+                    flash('Login failed - check the credentials', 'danger')
                     return redirect(url_for('dashboard'))
-            else:
-                flash('Login failed - check the credentials', 'danger')
     now = datetime.datetime.utcnow()
     return render_template('login.html', form=form, now=now)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Register new user
+    """
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
@@ -119,6 +151,9 @@ def register():
 
 @app.route('/logout')
 def logout():
+    """
+    Logout current user
+    """
     logout_user()
     return redirect(url_for('login'))
 
@@ -126,6 +161,9 @@ def logout():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    """
+    Show profile page to change name, password, avatar
+    """
     form = ProfileForm()
     if form.validate_on_submit():
         hashed_pw = generate_password(form.password.data)
@@ -133,8 +171,6 @@ def profile():
         current_user.password = hashed_pw
         if form.avatar.data != "":
             current_user.user_image = form.avatar.data
-        else:
-            current_user.user_image
         db.session.commit()
         flash('An account has been updated', 'success')
         return redirect(url_for('profile'))
@@ -144,6 +180,9 @@ def profile():
 @app.route('/postmortems')
 @login_required
 def postmortems():
+    """
+    Show postmortems list
+    """
     MORTEMS_PER_PAGE = 7
     page = request.args.get('page', type=int, default=1)
     mortems = Mortem.query.order_by(
@@ -156,6 +195,9 @@ def postmortems():
 @app.route('/postmortems/add', methods=['GET', 'POST'])
 @login_required
 def add_postmortem():
+    """
+    Add new postmortem
+    """
     form = PostmortemForm()
     if form.validate_on_submit():
         title = form.title.data
@@ -180,6 +222,9 @@ def add_postmortem():
 @app.route('/postmortems/<url>')
 @login_required
 def get_postmortem(url):
+    """
+    Show paricular postmortem details
+    """
     mortem = Mortem.query.filter_by(mortem_url=url).first()
     mortem.mortem_tags = get_tags(mortem.mortem_tags)
     return render_template('get_postmortem.html', mortem=mortem)
@@ -188,6 +233,9 @@ def get_postmortem(url):
 @app.route('/postmortems/<url>/update', methods=['GET', 'POST'])
 @login_required
 def update_postmortem(url):
+    """
+    Update paricular postmortem details
+    """
     mortem = Mortem.query.filter_by(mortem_url=url).first()
     if mortem.author != current_user:
         abort(403)
@@ -213,6 +261,9 @@ def update_postmortem(url):
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
+    """
+    Perform search per Postmortems
+    """
     def _get_results(q):
         MORTEMS_PER_PAGE = 3
         page = request.args.get('page', type=int, default=1)
@@ -220,7 +271,6 @@ def search():
                   Mortem.mortem_name.like(f"%{q}%")).paginate(
                   page=page, per_page=MORTEMS_PER_PAGE, error_out=False)
         return page, mortems
-    # TODO: Check SQL injection
     if request.method == 'POST':
         query = request.form['search_query']
         page, mortems = _get_results(query)
@@ -239,6 +289,9 @@ def search():
 @app.route('/support', methods=['GET', 'POST'])
 @login_required
 def support():
+    """
+    Create a support case (bug,error,issue)
+    """
     form = SupportForm()
     if form.validate_on_submit():
         subject = form.subject.data
@@ -255,7 +308,7 @@ def support():
                                support_created=now,
                                support_attach=attach_data,
                                user_id=uid)
-        # send_admin_email(db, support_case)
+        send_admin_email(db, support_case)
         db.session.add(support_case)
         db.session.commit()
         flash('The Support Case has been created', 'warning')
@@ -265,9 +318,15 @@ def support():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """
+    HTTP 404 Handler
+    """
     return render_template('404.html'), 404
 
 
 @app.errorhandler(403)
 def page_forbidden(e):
+    """
+    HTTP 403 Handler
+    """
     return render_template('403.html'), 403

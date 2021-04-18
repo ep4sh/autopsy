@@ -1,3 +1,54 @@
+"""
+Create Autopsy Postmortem Web Application
+
+Classes:
+    --- admin
+    AutopsyModelView(sqla.ModelView)
+    AutopsyAdminIndexView(admin.AdminIndexView)
+    --- form
+    RegistrationForm(FlaskForm)
+    LoginForm(FlaskForm)
+    ProfileForm(FlaskForm)
+    PostmortemForm(FlaskForm)
+    SupportForm(FlaskForm)
+    SearchForm(FlaskForm)
+    RequestResetForm(FlaskForm)
+    ResetForm(FlaskForm)
+    --- models
+    User(db.Model, UserMixin)
+    Role(db.Model)
+    UserRoles(db.Model)
+    Mortem(db.Model)
+    Support(db.Model)
+
+Methods:
+    --- misc
+    def resize_screenshot(scr) -> BytesIO obj
+    def get_tags(tags_data) -> str
+    def auto_tag(content) -> list
+    def verify_password(true_pass, data) -> bool
+    def generate_password(data) -> str
+    def choose_random_mortem(max_id) -> int / None
+    def define_mortem_url() -> define_mortem_url / str
+    def send_admin_email(db, support_case) -> None
+    def send_email(email, token) -> None
+    --- routes
+    def dashboard() -> render_template
+    def reset() -> render_template / redirect
+    def reset_password(token) -> render_template / redirect
+    def login() -> render_template / redirect
+    def register()   -> render_template / redirect
+    def logout() -> redirect
+    def profile() -> render_template
+    def postmortems() -> render_template
+    def add_postmortem() -> render_template / redirect
+    def get_postmortem(url) -> render_template
+    def update_postmortem(url) -> render_template / redirect
+    def search() -> render_template / redirect
+    def support() -> render_template / redirect
+    def page_not_found(e) -> render_template
+    def page_forbidden(e) -> render_template
+"""
 import os
 from dotenv import load_dotenv
 from flask import Flask

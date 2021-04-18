@@ -1,13 +1,24 @@
+"""
+Add  mail capabilities for Autopsy Web App
+
+Methods:
+    def send_admin_email(db, support_case) -> None
+    def send_email(email, token) -> None
+"""
 from flask import url_for
 from flask_mail import Message
 from autopsy_app import app, mail
 from autopsy_app.model import User, UserRoles
 
 
-def send_admin_email(db, support_case):
+def send_admin_email(db_obj, support_case):
+    """
+    Send announcement for each member of 'admin' groups
+    When the support case is being created
+    """
     msg = Message('Autopsy Web app: a support case has been created')
     msg.sender = app.config['MAIL_USERNAME']
-    email_dl = db.session.query(
+    email_dl = db_obj.session.query(
                                 UserRoles.role_id,
                                 User.user_email).filter(
                                 UserRoles.role_id == 1).join(User).all()
@@ -29,6 +40,9 @@ def send_admin_email(db, support_case):
 
 
 def send_email(email, token):
+    """
+    Create an email request for password reset procedure
+    """
     msg = Message('Password Reset for Autopsy')
     msg.sender = app.config['MAIL_USERNAME']
     msg.recipients = [email]

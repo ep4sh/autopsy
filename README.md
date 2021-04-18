@@ -2,7 +2,6 @@
 
 ![Autopsy](https://github.com/ep4sh/autopsy/actions/workflows/main.yml/badge.svg)
 
-
 ![Autopsy](https://user-images.githubusercontent.com/19505042/113065705-f7f9f000-91c1-11eb-92be-1821648954b0.jpg) Autopsy is free, Flask-based Postmortem web app.
 
 
@@ -179,6 +178,10 @@ docker run -d -v $PWD/.env:/app/.env -v $PWD/app.ini:/app/app.ini \
   -p5000:5000 ep4sh/autopsy:$APP_VERSION
 ```
 
+## Running code-style checks
+```
+pylint --load-plugins pylint_flask,pylint_flask_sqlalchemy *.py
+```
 
 ## Icon authors:
 [DinosoftLabs](https://www.flaticon.com/authors/dinosoftlabs)
