@@ -56,6 +56,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 
+# Create an app
 app = Flask(__name__)
 load_dotenv()
 

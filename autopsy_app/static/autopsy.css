@@ -6,14 +6,15 @@
 
 /*
  * Dashboard
- */
+*/
 .dashboard ul {
    list-style-type: none;
 }
 
+
 /*
  * Sidebar
- */
+*/
 
 .sidebar .nav-link {
   font-weight: 500;
@@ -44,9 +45,10 @@
   overflow-x: hidden;
   overflow-y: hidden; /* Scrollable contents if viewport is shorter than content. */
 }
+
 /*
  * Navbar
- */
+*/
 
 .navbar {
   border-bottom: 0.25rem solid #8a2be2;
@@ -83,7 +85,7 @@
 
 /*
  * Logo
- */
+*/
 
 .logo {
   with: 100%;
@@ -171,7 +173,7 @@
 
 /*
  * Mortem
- */
+*/
 .add-mortem-content {
   height: 15rem;
 }
@@ -251,3 +253,4 @@
   font-weight: 900;
   color: DodgerBlue;
 }
+

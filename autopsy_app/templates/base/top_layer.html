@@ -74,26 +74,17 @@
               <span>Recent pages</span>
             </h6>
             <ul class="nav flex-column mb-2">
+            {% for urls in recent_urls %}
+              {% for page, url in urls.items() %}
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="compass"></span>
-                  page1
+                  <a class="nav-link" href="{{ url }}">
+                      <span data-feather="compass"></span>
+                      <span> {{ page | truncate(30, True) }} </span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="compass"></span>
-                   page2
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="compass"></span>
-                  page3
-                </a>
-              </li>
+              {% endfor %}
+            {% endfor %}
             </ul>
-
           </div>
         </nav>
       {% endblock menu %}
