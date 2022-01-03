@@ -371,6 +371,11 @@ def support():
     return render_template('support.html', form=form, recent_urls=urls)
 
 
+@app.route('/healthz')
+def healthz():
+    return "OK", 200
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     """
