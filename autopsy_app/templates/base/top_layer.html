@@ -70,21 +70,6 @@
               </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
-              <span>Recent pages</span>
-            </h6>
-            <ul class="nav flex-column mb-2">
-            {% for urls in recent_urls %}
-              {% for page, url in urls.items() %}
-              <li class="nav-item">
-                  <a class="nav-link" href="{{ url }}">
-                      <span data-feather="compass"></span>
-                      <span> {{ page | truncate(30, True) }} </span>
-                </a>
-              </li>
-              {% endfor %}
-            {% endfor %}
-            </ul>
           </div>
         </nav>
       {% endblock menu %}

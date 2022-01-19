@@ -20,7 +20,7 @@ Methods:
 """
 import datetime
 from flask import abort, flash
-from flask import redirect, render_template, request, session, url_for
+from flask import redirect, render_template, request, url_for
 from flask_login import login_user, logout_user, current_user, login_required
 from autopsy_app import app
 from autopsy_app.admin import adm
@@ -40,8 +40,6 @@ def dashboard():
     """
     Show a Autopsy dashboard with Recently added and Random Postmortems
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     # Getting recent postmortems
     recent_mortems = Mortem.query.order_by(Mortem.mortem_created.desc()).\
                     limit(3).all()
@@ -55,8 +53,7 @@ def dashboard():
         rnd_mortem = None
     return render_template('dashboard.html',
                            mortems=recent_mortems,
-                           rnd_mortem=rnd_mortem,
-                           recent_urls=urls)
+                           rnd_mortem=rnd_mortem)
 
 
 @app.route('/reset', methods=['GET', 'POST'])
@@ -114,8 +111,6 @@ def login():
     if current_user.is_authenticated:
         return redirect("/")
     form = LoginForm()
-    # Get recent URLs
-    session['recent_urls'] = []
     if request.method == "POST":
         if form.validate_on_submit():
             user = User.query.filter_by(user_email=form.email.data).first()
@@ -130,28 +125,6 @@ def login():
                     return redirect(url_for('dashboard'))
     now = datetime.datetime.utcnow()
     return render_template('login.html', form=form, now=now)
-
-
-@app.before_request
-def get_visted_urls():
-    urls = session['recent_urls']
-
-    # URLs filtering
-    # Only postmortems are passed
-    if '/postmortems/' not in request.path:
-        return
-    # Exclude service's endpoints
-    known_urls = [f"/postmortems/{x}" for x in ['add', 'update']]
-    if request.path in known_urls:
-        return
-    # Do not update duplicates
-    if True in list(map(lambda i: request.path in i.keys(), urls)):
-        return
-    recent_page = {request.path: request.url}
-    urls.append(recent_page)
-    if len(urls) > 3:
-        urls.pop(0)
-    session.modified = True
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -194,8 +167,6 @@ def profile():
     """
     Show profile page to change name, password, avatar
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     form = ProfileForm()
     if form.validate_on_submit():
         hashed_pw = generate_password(form.password.data)
@@ -206,7 +177,7 @@ def profile():
         db.session.commit()
         flash('An account has been updated', 'success')
         return redirect(url_for('profile'))
-    return render_template('profile.html', form=form, recent_urls=urls)
+    return render_template('profile.html', form=form)
 
 
 @app.route('/postmortems')
@@ -215,8 +186,6 @@ def postmortems():
     """
     Show postmortems list
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     MORTEMS_PER_PAGE = 7
     page = request.args.get('page', type=int, default=1)
     mortems = Mortem.query.order_by(
@@ -224,8 +193,7 @@ def postmortems():
                                          per_page=MORTEMS_PER_PAGE,
                                          error_out=False)
     return render_template('postmortems.html',
-                           mortems=mortems,
-                           recent_urls=urls)
+                           mortems=mortems)
 
 
 @app.route('/postmortems/add', methods=['GET', 'POST'])
@@ -234,8 +202,6 @@ def add_postmortem():
     """
     Add new postmortem
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     form = PostmortemForm()
     if form.validate_on_submit():
         title = form.title.data
@@ -254,7 +220,7 @@ def add_postmortem():
         db.session.commit()
         flash('The mortem has been added', 'success')
         return redirect(url_for('add_postmortem'))
-    return render_template('add_postmortem.html', form=form, recent_urls=urls)
+    return render_template('add_postmortem.html', form=form)
 
 
 @app.route('/postmortems/<url>')
@@ -263,13 +229,10 @@ def get_postmortem(url):
     """
     Show paricular postmortem details
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     mortem = Mortem.query.filter_by(mortem_url=url).first()
     mortem.mortem_tags = get_tags(mortem.mortem_tags)
     return render_template('get_postmortem.html',
-                           mortem=mortem,
-                           recent_urls=urls)
+                           mortem=mortem)
 
 
 @app.route('/postmortems/<url>/update', methods=['GET', 'POST'])
@@ -278,8 +241,6 @@ def update_postmortem(url):
     """
     Update paricular postmortem details
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     mortem = Mortem.query.filter_by(mortem_url=url).first()
     if mortem.author != current_user:
         abort(403)
@@ -301,8 +262,7 @@ def update_postmortem(url):
         form.mortem.data = mortem.mortem_content
     return render_template('update_postmortem.html',
                            mortem=mortem,
-                           form=form,
-                           recent_urls=urls)
+                           form=form)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -311,9 +271,6 @@ def search():
     """
     Perform search per Postmortems
     """
-    # Getting recent urls
-    urls = session['recent_urls']
-
     def _get_results(q):
         MORTEMS_PER_PAGE = 3
         page = request.args.get('page', type=int, default=1)
@@ -335,8 +292,7 @@ def search():
             mortems = None
     return render_template('search.html',
                            mortems=mortems,
-                           query=query,
-                           recent_urls=urls)
+                           query=query)
 
 
 @app.route('/support', methods=['GET', 'POST'])
@@ -345,8 +301,6 @@ def support():
     """
     Create a support case (bug,error,issue)
     """
-    # Getting recent urls
-    urls = session['recent_urls']
     form = SupportForm()
     if form.validate_on_submit():
         subject = form.subject.data
@@ -368,7 +322,7 @@ def support():
         db.session.commit()
         flash('The Support Case has been created', 'warning')
         return redirect(url_for('support'))
-    return render_template('support.html', form=form, recent_urls=urls)
+    return render_template('support.html', form=form)
 
 
 @app.route('/healthz')
