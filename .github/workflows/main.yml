@@ -20,19 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Find Tag
-        id: tagger_old
-        uses: jimschubert/query-tag-action@v1
-        with:
-          exclude: '*-rc*'
-          commit-ish: 'HEAD~'
-        # if you unshallow in a separate step, use the following option:
-        # skip-unshallow: 'true'
-
-      - name: Show Tag
-        id: display
-        run: |
-            echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}'
+      - name: Get the latest tag from Git
+        id: tagger
+        run: git describe --abbrev=0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -45,10 +35,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: Get the latest tag from Git
-        id: tagger
-        run: git describe --abbrev=0
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -64,9 +50,8 @@ jobs:
             FLASK_SECRET: ${{ secrets.FLASK_SECRET }}
           tags: |
             ep4sh/autopsy:latest
-            ep4sh/autopsy:${{steps.tagger.outputs}}
+            ep4sh/autopsy:${{steps.tagger.outputs.stdout}}
 
       - name: Print image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
 
