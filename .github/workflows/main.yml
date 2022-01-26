@@ -20,9 +20,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get the latest tag from Git
-        id: tagger
-        run: git describe --abbrev=0 --always
+      - name: Unshallow checkout
+        run: git fetch --prune --unshallow
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ep4sh/autopsy
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=sha
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -48,9 +59,7 @@ jobs:
             FLASK_APP: main.py
             FLASK_ENV: production
             FLASK_SECRET: ${{ secrets.FLASK_SECRET }}
-          tags: |
-            ep4sh/autopsy:latest
-            ep4sh/autopsy:${{steps.tagger.outputs.stdout}}
+          tags: ${{ steps.meta.outputs.tags }}
 
       - name: Print image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
