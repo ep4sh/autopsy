@@ -47,4 +47,9 @@ helm install postgresql --version 8.7.3 \
     bitnami/postgresql
 ```
 
+For arm64 I recommend using:
+```
+helm install postgresql --set userDatabase.name=postgres --set userDatabase.user=postgres --set userDatabase.password=postgres groundhog2k/postgres
+```
+
 #### Set up a favourite ingress controller and apply ingress
