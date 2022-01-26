@@ -2,21 +2,13 @@ version: '3'
 
 services:
   postgres:
-    image: postgres
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
-      timeout: 45s
-      interval: 10s
-      retries: 10
+    image: bitnami/postgresql:latest
     restart: always
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
-      - APP_DB_NAME=docker
+      - POSTGRES_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=docker
     volumes:
-      - ./db_init:/docker-entrypoint-initdb.d/
-      - ./pgdata:/var/lib/postgresql/data
+      - ./pgdata:/bitnami/postgresql
     ports:
       - 5432:5432

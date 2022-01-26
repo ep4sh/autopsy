@@ -110,9 +110,7 @@ It  will create database schema and load init resources like roles
 flask shell <<< "from autopsy_app.model import db; db.create_all();"
 ```
 
-
 OR
-
 
 #### Apply DB migrations
 ```
@@ -134,49 +132,12 @@ http://localhost:5000/
 
 ## PostgreSQL development instance
 There is a way to spin-up development PostgreSQL database in container via docker-compose.
+DB credentials are via environment vars - please checl `docker-compose.yml` file.
 ```
 cd docker_misc/db
 docker-compose up -d
 ```
 
-Database credentials can be found in `docker_misc/db/docker-compose.yml`:
-```
-- APP_DB_USER=docker
-- APP_DB_PASS=docker
-- APP_DB_NAME=docker
-```
-
-:hankey: Be aware from running the production database instance this way and from other monsters!
-
-
-## Creating a Docker container
-
-
-### Create a builder (:hugs: The image can be built without buildkit)
-```
-docker buildx create --name mbuilder --platform linux/arm64,linux/arm/v8,linux/armv7,linux/amd64  --use
-```
-
-### Exporting ENV vars
-
-```
-export $(cat .env)
-```
-
-### x64 - Build docker image
-```
-APP_VERSION=$(git describe)
-docker buildx build --platform=linux/amd64 -t ep4sh/autopsy:$APP_VERSION \
-  --build-arg FLASK_APP=$FLASK_APP \
-  --build-arg FLASK_ENV=$FLASK_ENV \
-  --push .
-```
-
-### x64 - Run docker container
-```
-docker run -d -v $PWD/.env:/app/.env -v $PWD/app.ini:/app/app.ini \
-  -p5000:5000 ep4sh/autopsy:$APP_VERSION
-```
 
 ## Running code-style checks
 ```

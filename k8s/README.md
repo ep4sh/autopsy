@@ -6,22 +6,45 @@ It may be different for your cluster - feel free to change anything you want
 
 ## Installation
 
+Create a namespace
+```
+kubectl create namespace autopsy
+```
+
 #### Secrets
 
 ```
 cd common
 cp secrets.yml.sample secrets.yml
-k apply -f secrets.yml
+k apply -f secrets.yml --namespace=autopsy
 ```
 
 
 #### Autopsy app
+
+Update dependencies
 ```
-cd autopsy/k8s
-helm install autopsy autopsy/ -f autopsy/values.yaml
+cd ../autopsy
+helm dependency update
+helm dependency list
 ```
 
+Install with dependencies
 
-#### Setup your favourite balancer for autopsy service
+```
+helm install autopsy . -f values.yaml
+```
 
-#### Cheerz =*
+Currently postgresql chart has a problem with secret injection:
+https://github.com/bitnami/charts/issues/2061
+
+but you can rollout PostgreSQL with standalone helm:
+```
+helm install postgresql --version 8.7.3 \
+    --set postgresqlUsername=postgres \
+    --set postgresqlPassword=postgres \
+    --set postgresqlDatabase=postgres \
+    bitnami/postgresql
+```
+
+#### Set up a favourite ingress controller and apply ingress

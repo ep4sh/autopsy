@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: ep4sh/autopsy
   pullPolicy: IfNotPresent
-  tag: "0.1.7-2-gc9f301f"
+  tag: "latest"
 
 autopsySecrets: autopsy-flask-dotenv
 
@@ -30,10 +30,9 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
-  port: 5000
+  type: ClusterIP
+  port: 80
   targetPort: 5000
-  nodePort: 32002
 
 ingress:
   enabled: false
@@ -45,11 +44,11 @@ ingress:
 
 resources:
   requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
     cpu: 300m
     memory: 256Mi
-  limits:
-    cpu: 700m
-    memory: 512Mi
 
 autoscaling:
   enabled: false
@@ -63,4 +62,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+# PostgreSQL settings
+# Disabled until the issue won't be resolved https://github.com/bitnami/charts/issues/2061
+database:
+  enabled: false
+
+postgresql:
+  postgresqlUsername: "autopsy"
+  postgresqlPassword: "autopsy"
+  postgresqlDatabase: "autopsy"
 
