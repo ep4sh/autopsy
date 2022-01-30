@@ -50,11 +50,12 @@ spec:
               port: http
             initialDelaySeconds: 15
             failureThreshold: 3
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /healthz
               port: http
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
