@@ -36,12 +36,19 @@ service:
   targetPort: 5000
 
 ingress:
-  enabled: false
+  enabled: true
+  className: "nginx"
   annotations: {}
   hosts:
-    - host: app.ep4sh.cc
-      paths: []
-  tls: []
+    - host: autopsy.ep4sh.cc
+      paths:
+        - path: "/"
+          pathType: Prefix
+          backend:
+            service:
+              name: autopsy
+              port:
+              number: 80
 
 resources:
   requests:
