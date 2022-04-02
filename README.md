@@ -9,8 +9,8 @@ Autopsy spreads postmortems culture, involves people to learn on the failures.
 
 ## Demo
 
-A small demo running on raspberry pi:
-![AutopsyDemo](http://autopsy.ep4sh.cc)
+A small demo running on raspberry pi:  
+http://autopsy.ep4sh.cc
 
 ## Concepts
 
