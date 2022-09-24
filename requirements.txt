@@ -21,7 +21,7 @@ isort==5.8.0
 itsdangerous==1.1.0
 Jinja2==2.11.3
 lazy-object-proxy==1.6.0
-Mako==1.1.4
+Mako==1.2.2
 MarkupSafe==1.1.1
 mccabe==0.6.1
 Pillow==9.0.1
