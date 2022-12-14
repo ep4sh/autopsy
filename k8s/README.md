@@ -35,21 +35,9 @@ Install with dependencies
 helm install autopsy . -f values.yaml
 ```
 
-Currently postgresql chart has a problem with secret injection:
-https://github.com/bitnami/charts/issues/2061
-
-but you can rollout PostgreSQL with standalone helm:
-```
-helm install postgresql --version 8.7.3 \
-    --set postgresqlUsername=postgres \
-    --set postgresqlPassword=postgres \
-    --set postgresqlDatabase=postgres \
-    bitnami/postgresql
-```
-
 For arm64 I recommend using:
 ```
-helm install postgresql --set userDatabase.name=postgres --set userDatabase.user=postgres --set userDatabase.password=postgres groundhog2k/postgres
+helm install postgresql --set userDatabase.name=postgres --set userDatabase.user=postgres --set userDatabase.password=postgres --set settings.authMethod=trust  groundhog2k/postgres
 ```
 
 #### Set up a favourite ingress controller and apply ingress
