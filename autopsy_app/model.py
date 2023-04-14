@@ -10,9 +10,10 @@ Classes:
 """
 from datetime import datetime
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy, event
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
 from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from autopsy_app import app, login_manager
 
 db = SQLAlchemy(app)

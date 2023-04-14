@@ -121,7 +121,7 @@ OR
 ```
 flask db stamp head
 flask db migrate
-flas db upgrade
+flask db upgrade
 ```
 
 #### Run app
@@ -140,6 +140,7 @@ There is a way to spin-up development PostgreSQL database in container via docke
 DB credentials are via environment vars - please checl `docker-compose.yml` file.
 ```
 cd docker_misc/db
+sudo chmod 777 pgdata
 docker-compose up -d
 ```
 
