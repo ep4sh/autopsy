@@ -28,7 +28,7 @@ lazy-object-proxy==1.6.0
 Mako==1.2.2
 MarkupSafe==2.1.2
 mccabe==0.6.1
-Pillow==9.0.1
+Pillow==9.3.0
 pipreqs==0.4.13
 psycopg2==2.8.6
 pycparser==2.20
